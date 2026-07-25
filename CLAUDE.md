@@ -8,6 +8,10 @@ A Kickstarter card game in development: **Glitch Chess** — "chess, but the rul
 
 **Tone constraints (non-negotiable):** sci-fi, cool-looking, kid-friendly but not kid-looking — no gore, no NSFW, no sexualization. Literary sub-theme (Robin Sloan-adjacent: warm tech-mysticism, books, secret societies).
 
+## State of play (July 24, 2026)
+
+Read `design/register-atlas.md` first — it's the master art-architecture doc. Locked: 32-card structure (6 piece-suite + 8 characters + 16 effects + 2 rules; the 16 = canon "pressed glitches"); each faction has its own document-culture art register; two canon stories in `lore/`. Model playbook in `art/prompts.md` (gemini-3-pro default; gpt-5.4-image-2 + constraint-first long prompts for hero art). Open threads, in rough priority: (1) merge punk Black Catalog grit into the Glitchwrights zine register, (2) settle the Errantry register (Living Rooks candlelit architecture vs waymarker panels), (3) wire Awakened characters into the prototype for playtesting, (4) draft the six piece-suite cards (Continuity Council register), (5) frame compositor v2 using the collage layout language.
+
 ## Git workflow
 
 Solo-dev project. Remote: https://github.com/tomcritchlow/chess-glitch. **Default: commit and push directly to `main` — no branches, no PRs** — unless Tom says otherwise for a specific change. Generated art in `art/output/` IS committed (the HTML sheets depend on it); `.env.local` never is.
