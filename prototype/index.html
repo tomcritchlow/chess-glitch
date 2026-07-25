@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glitch Chess — Prototype Sandbox</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>GLITCH<span>CHESS</span></h1>
+  <div class="tagline">chess, but the rules are glitching · prototype sandbox v0</div>
+</header>
+
+<main>
+  <section class="board-col">
+    <div class="turn-bar">
+      <div id="turn-indicator"></div>
+      <div class="turn-actions">
+        <button id="btn-pass" title="End turn without moving (some cards allow this)">Pass turn</button>
+        <button id="btn-undo">Undo</button>
+        <button id="btn-token" title="Toggle token mode, then click squares to mark them (Firewall, Haunt, etc.)">Token mode</button>
+        <button id="btn-reset">Reset game</button>
+      </div>
+    </div>
+    <div id="board"></div>
+    <div class="captured-row">
+      <div class="captured signal"><span class="cap-label">Signal lost:</span><span id="captured-white"></span></div>
+      <div class="captured static"><span class="cap-label">Static lost:</span><span id="captured-black"></span></div>
+    </div>
+    <div class="hint">Click a piece, then a destination. Green dots = legal chess moves; any other square is allowed and logged as a <em>glitch move</em>. Cards are adjudicated by you — the app is a sandbox, not a referee.</div>
+  </section>
+
+  <section class="side-col">
+    <div class="hand-panel signal-panel">
+      <div class="panel-head">
+        <h2>Signal <span class="side-chip signal-chip">cyan · moves first</span></h2>
+        <button class="draw-btn" data-player="white">Draw card</button>
+      </div>
+      <div class="hand" id="hand-white"></div>
+    </div>
+
+    <div class="hand-panel static-panel">
+      <div class="panel-head">
+        <h2>Static <span class="side-chip static-chip">magenta</span></h2>
+        <button class="draw-btn" data-player="black">Draw card</button>
+      </div>
+      <div class="hand" id="hand-black"></div>
+    </div>
+
+    <div class="log-panel">
+      <div class="panel-head">
+        <h2>Game log</h2>
+        <span id="deck-count"></span>
+      </div>
+      <div id="log"></div>
+    </div>
+  </section>
+</main>
+
+<script src="cards.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

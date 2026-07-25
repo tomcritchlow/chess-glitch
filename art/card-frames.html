@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glitch Chess — Card Frame Compositor v1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: #0a0b12 radial-gradient(ellipse 70% 50% at 50% 0%, #171a2e 0%, transparent 60%);
+    color: #e8e8f0; font-family: "Avenir Next", system-ui, sans-serif;
+    padding: 40px; min-height: 100vh;
+  }
+  h1 { font-size: 20px; letter-spacing: 3px; }
+  .sub { color: #8a8fa8; font-size: 13px; margin: 6px 0 36px; }
+  .table { display: flex; flex-wrap: wrap; gap: 34px; justify-content: center; perspective: 1400px; }
+
+  /* ---------- card ---------- */
+  .card {
+    width: 340px; aspect-ratio: 63/88; position: relative;
+    transform-style: preserve-3d; transition: transform .25s ease;
+    --mx: 50%; --my: 50%;
+  }
+  .frame {
+    position: absolute; inset: 0; border-radius: 17px; padding: 11px;
+    background:
+      linear-gradient(var(--sheen-angle, 120deg), rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 18%, rgba(255,255,255,.25) 38%, rgba(0,0,0,.25) 55%, rgba(255,255,255,.3) 76%, rgba(0,0,0,.3) 100%),
+      linear-gradient(160deg, #d9dbe4 0%, #8f93a4 18%, #f2f3f7 34%, #676c80 52%, #c9ccd8 70%, #7c8095 86%, #e6e8ef 100%);
+    box-shadow:
+      0 18px 44px rgba(0,0,0,.65),
+      0 0 26px color-mix(in srgb, var(--a1) 36%, transparent);
+  }
+  /* engraved inner hairlines */
+  .frame::before {
+    content: ""; position: absolute; inset: 5px; border-radius: 13px; pointer-events: none; z-index: 3;
+    border: 1px solid color-mix(in srgb, var(--a1) 55%, #ffffff30);
+    box-shadow: inset 0 0 0 1px #00000055, inset 0 0 14px #00000066;
+  }
+  /* corner studs */
+  .frame::after {
+    content: ""; position: absolute; z-index: 4; pointer-events: none;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--a1) 45%, #222 90%);
+    top: 8px; left: 8px;
+    box-shadow:
+      316px 0 0 0 #000,  316px 0 0 -1.5px var(--stud, #ccc),
+      0 451px 0 0 #000,  0 451px 0 -1.5px var(--stud, #ccc),
+      316px 451px 0 0 #000, 316px 451px 0 -1.5px var(--stud, #ccc);
+  }
+  .inner {
+    position: relative; width: 100%; height: 100%;
+    border-radius: 9px; overflow: hidden; background: #000;
+  }
+  .art { position: absolute; inset: 0; background-size: cover; background-position: center; }
+
+  /* holo layers */
+  .holo {
+    position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: color-dodge;
+    background: conic-gradient(from 210deg at 50% 40%, #ff9ae0, #ffe29a, #9affc8, #9ad2ff, #d29aff, #ff9ae0);
+  }
+  .glare {
+    position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0;
+    background: radial-gradient(circle 300px at var(--mx) var(--my), rgba(255,255,255,.65), transparent 60%);
+    transition: opacity .25s ease;
+  }
+  .card:hover .glare { opacity: .5; }
+  .card:hover { z-index: 5; }
+
+  /* top chips */
+  .gem {
+    position: absolute; top: 10px; left: 10px; width: 34px; height: 34px; border-radius: 50%; z-index: 2;
+    background: radial-gradient(circle at 34% 28%, #ffffffee, var(--a1) 42%, var(--a2) 75%, #000 105%);
+    border: 2px solid #1a1a22; box-shadow: 0 0 12px var(--a1), inset 0 -3px 6px #00000088;
+  }
+  .typeline {
+    position: absolute; top: 16px; right: 12px; z-index: 2;
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2.5px;
+    color: #f5f0e4; background: linear-gradient(180deg, #2a2c38ee, #14151dee);
+    padding: 5px 10px 4px; border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--a1) 65%, #888);
+    text-shadow: 0 1px 2px #000;
+  }
+
+  /* text block */
+  .panel {
+    position: absolute; left: 0; right: 0; bottom: 64px; z-index: 2; padding: 44px 14px 10px;
+    background: linear-gradient(180deg, transparent 0%, #05060acc 34%, #05060af2 100%);
+    font-size: 11px; line-height: 1.5; color: #e9e7de;
+  }
+  .quirk b, .sig b { color: color-mix(in srgb, var(--a1) 80%, #fff); letter-spacing: .5px; }
+  .sig { margin-top: 6px; }
+  .sig .once { font-size: 8.5px; letter-spacing: 1.5px; color: #b6b09c; }
+  .flavor { margin-top: 7px; font-style: italic; font-size: 10px; color: #9d99a8; }
+
+  /* nameplate */
+  .nameplate {
+    position: absolute; left: 8px; right: 8px; bottom: 26px; height: 34px; z-index: 2;
+    clip-path: polygon(3.5% 0, 96.5% 0, 100% 50%, 96.5% 100%, 3.5% 100%, 0 50%);
+    background:
+      linear-gradient(100deg, rgba(255,255,255,.5) 0%, transparent 25%, rgba(255,255,255,.28) 50%, transparent 75%, rgba(255,255,255,.35) 100%),
+      linear-gradient(180deg, #494c5c, #16171f 45%, #05050a 55%, #33364a);
+    display: flex; align-items: center; justify-content: center;
+    border-top: 1px solid color-mix(in srgb, var(--a1) 70%, #fff8);
+    border-bottom: 1px solid #000;
+  }
+  .nameplate span {
+    font-family: "Copperplate", "Optima", serif; font-weight: 600;
+    font-size: 17px; letter-spacing: 4px; color: #f3ead2;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--a1) 65%, transparent), 0 2px 2px #000;
+  }
+  .footer {
+    position: absolute; left: 14px; right: 14px; bottom: 7px; z-index: 2;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 7.5px; letter-spacing: 1.8px; color: #8d8a98; text-transform: uppercase;
+  }
+  .footer .dot { width: 9px; height: 9px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--a1) 50%, var(--a2)); box-shadow: 0 0 6px var(--a1); }
+
+  /* faction palettes */
+  .gw   { --a1: #37e6ff; --a2: #ff4fd8; --stud: #b8f4ff; }
+  .err  { --a1: #ff8f6b; --a2: #8f6bff; --stud: #ffd6c4; }
+  .marg { --a1: #ffc46b; --a2: #3a5bcf; --stud: #ffe3b0; }
+  .hush { --a1: #d8c9ff; --a2: #7ee8d0; --stud: #f0eaff; }
+</style>
+</head>
+<body>
+<h1>CARD FRAME COMPOSITOR <span style="color:#565b74">v1</span></h1>
+<div class="sub">Frame lives in code, art lives underneath — hover for the holo tilt. Four factions, one frame system.</div>
+
+<div class="table">
+
+  <div class="card gw">
+    <div class="frame"><div class="inner">
+      <div class="art" style="background-image:url('output/g3p-volt-cropped.png')"></div>
+      <div class="holo"></div><div class="glare"></div>
+      <div class="gem"></div>
+      <div class="typeline">AWAKENED · KNIGHT</div>
+      <div class="panel">
+        <div class="quirk"><b>QUIRK</b> — Volt ignores Firewalls and Daemon marks.</div>
+        <div class="sig"><b>⚡ BLINK</b> <span class="once">ONCE PER GAME</span> — Instead of moving, place Volt on any empty square.</div>
+        <div class="flavor">It arrives before it leaves.</div>
+      </div>
+      <div class="nameplate"><span>VOLT</span></div>
+      <div class="footer"><span>SET 01 · 03/32</span><span class="dot"></span><span>GLITCHWRIGHTS</span></div>
+    </div></div>
+  </div>
+
+  <div class="card err">
+    <div class="frame"><div class="inner">
+      <div class="art" style="background-image:url('output/g3p-colossus-1784937943180.png')"></div>
+      <div class="holo"></div><div class="glare"></div>
+      <div class="gem"></div>
+      <div class="typeline">AWAKENED · KNIGHT</div>
+      <div class="panel">
+        <div class="quirk"><b>QUIRK</b> — Pawns cannot capture the Colossus.</div>
+        <div class="sig"><b>✦ BULWARK</b> <span class="once">ONCE PER GAME</span> — After your opponent moves, shift the Colossus one square in any direction.</div>
+        <div class="flavor">Some monuments refuse to stay history.</div>
+      </div>
+      <div class="nameplate"><span>THE COLOSSUS</span></div>
+      <div class="footer"><span>SET 01 · 11/32</span><span class="dot"></span><span>THE ERRANTRY</span></div>
+    </div></div>
+  </div>
+
+  <div class="card marg">
+    <div class="frame"><div class="inner">
+      <div class="art" style="background-image:url('output/g3p-nightclerk-1784937967207.png')"></div>
+      <div class="holo"></div><div class="glare"></div>
+      <div class="gem"></div>
+      <div class="typeline">AWAKENED · ROOK</div>
+      <div class="panel">
+        <div class="quirk"><b>QUIRK</b> — Friendly pieces adjacent to the Night Clerk can't be targeted by Exploits.</div>
+        <div class="sig"><b>✦ CLOSING TIME</b> <span class="once">ONCE PER GAME</span> — Retrieve an effect card from either discard pile.</div>
+        <div class="flavor">The archive never sleeps. Neither does she.</div>
+      </div>
+      <div class="nameplate"><span>THE NIGHT CLERK</span></div>
+      <div class="footer"><span>SET 01 · 19/32</span><span class="dot"></span><span>THE MARGINALIA</span></div>
+    </div></div>
+  </div>
+
+  <div class="card hush">
+    <div class="frame"><div class="inner">
+      <div class="art" style="background-image:url('output/g3p-queen-1784937990225.png')"></div>
+      <div class="holo"></div><div class="glare"></div>
+      <div class="gem"></div>
+      <div class="typeline">AWAKENED · QUEEN</div>
+      <div class="panel">
+        <div class="quirk"><b>QUIRK</b> — Enemy Awakened pieces adjacent to the Quiet Queen lose their quirks.</div>
+        <div class="sig"><b>✦ HUSH</b> <span class="once">ONCE PER GAME</span> — Choose a square: it and its neighbors are Null until your next turn.</div>
+        <div class="flavor">She has heard the silence. She hums along.</div>
+      </div>
+      <div class="nameplate"><span>THE QUIET QUEEN</span></div>
+      <div class="footer"><span>SET 01 · 27/32</span><span class="dot"></span><span>THE HUSH</span></div>
+    </div></div>
+  </div>
+
+</div>
+
+<script>
+  // holo tilt: rotate card toward pointer, drive glare + frame sheen from pointer position
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("pointermove", e => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      card.style.transform = `rotateY(${(px - .5) * 16}deg) rotateX(${(.5 - py) * 14}deg)`;
+      card.style.setProperty("--mx", (px * 100) + "%");
+      card.style.setProperty("--my", (py * 100) + "%");
+      card.style.setProperty("--sheen-angle", (100 + px * 60) + "deg");
+    });
+    card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+  });
+</script>
+</body>
+</html>

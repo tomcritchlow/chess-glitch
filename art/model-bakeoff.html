@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glitch Chess — Model Bake-off (July 2026)</title>
+<style>
+  body { background:#0a0b12; color:#e8e8f0; font-family:"Avenir Next",system-ui,sans-serif; padding:32px; }
+  h1 { font-size:20px; letter-spacing:2px; margin-bottom:4px; }
+  .sub { color:#8a8fa8; font-size:13px; margin-bottom:28px; max-width:90ch; }
+  .grid { display:grid; grid-template-columns:90px repeat(4,1fr); gap:12px; align-items:start; max-width:1600px; }
+  .rowlabel { padding-top:8px; font-size:14px; font-weight:700; }
+  .colhead { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#8a8fa8; text-align:center; }
+  .colhead b { display:block; color:#e8e8f0; font-size:12px; }
+  .win { color:#7dff9b; }
+  figure img { width:100%; border-radius:6px; display:block; box-shadow:0 4px 20px rgba(0,0,0,.5); }
+  figcaption { font-size:10px; color:#666d8c; padding:4px 2px; }
+</style>
+</head>
+<body>
+<h1>MODEL BAKE-OFF — JULY 2026</h1>
+<div class="sub">Same prompts, four models. Verdict: <b class="win">gemini-3-pro-image wins</b> — best piece-silhouette adherence, painterly depth, and character personality; now the default in generate.mjs. It returns 2 variants per call (extras in output/, suffix …428/…183/…213/…230). gpt-5.4-image-2 is a maximalist wildcard (epic environments, ~2 min/image, drifts off-silhouette); gemini-3.1-flash is fast but toy-ish on characters.</div>
+<div class="grid">
+  <div></div>
+  <div class="colhead"><b>gemini-2.5-flash</b>(old baseline)</div>
+  <div class="colhead"><b>gemini-3.1-flash</b>fast</div>
+  <div class="colhead win"><b>gemini-3-pro ★</b>new default</div>
+  <div class="colhead"><b>gpt-5.4-image-2</b>wildcard</div>
+
+  <div class="rowlabel">Volt</div>
+  <figure><img src="output/lush-volt-1784937159295.png"></figure>
+  <figure><img src="output/g31f-volt-1784937879587.jpeg"><figcaption>toy-like, lost silhouette</figcaption></figure>
+  <figure><img src="output/g3p-volt-cropped.png"><figcaption>keeper (border trimmed)</figcaption></figure>
+  <figure><img src="output/oai2-volt-1784938122202.png"><figcaption>album-cover intense, 3rd eye</figcaption></figure>
+
+  <div class="rowlabel">The Colossus</div>
+  <figure><img src="output/lush-colossus-1784937172830.png"></figure>
+  <figure><img src="output/g31f-colossus-1784937886382.jpeg"><figcaption>solid</figcaption></figure>
+  <figure><img src="output/g3p-colossus-1784937943180.png"><figcaption>keeper — mossy stone + script</figcaption></figure>
+  <figure><img src="output/oai2-colossus-1784938249432.png"><figcaption>epic world, sphinx pose</figcaption></figure>
+
+  <div class="rowlabel">The Night Clerk</div>
+  <figure><img src="output/master-nightclerk-1784937534678.png"></figure>
+  <figure><img src="output/g31f-nightclerk-1784937894009.jpeg"></figure>
+  <figure><img src="output/g3p-nightclerk-1784937967207.png"><figcaption>keeper — it WALKS</figcaption></figure>
+  <figure><img src="output/oai2-nightclerk-1784938385174.png"></figure>
+
+  <div class="rowlabel">The Quiet Queen</div>
+  <figure><img src="output/master-quietqueen-1784937541495.png"></figure>
+  <figure><img src="output/g31f-queen-1784937901960.jpeg"></figure>
+  <figure><img src="output/g3p-queen-1784937990225.png"><figcaption>keeper — kintsugi cracks</figcaption></figure>
+  <figure><img src="output/oai2-queen-1784938511225.png"></figure>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glitch Chess — GPT-5.4 Image 2 Experiments</title>
+<style>
+  body { background:#0a0b12; color:#e8e8f0; font-family:"Avenir Next",system-ui,sans-serif; padding:32px; }
+  h1 { font-size:20px; letter-spacing:2px; margin-bottom:4px; }
+  h2 { font-size:15px; letter-spacing:1.5px; margin:30px 0 12px; color:#b8bdd8; }
+  .sub { color:#8a8fa8; font-size:13px; margin-bottom:8px; max-width:90ch; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1500px; }
+  figure img { width:100%; border-radius:8px; display:block; box-shadow:0 6px 32px rgba(0,0,0,.7); }
+  figcaption { font-size:12px; color:#8a8fa8; padding:8px 2px; line-height:1.5; }
+  figcaption b { color:#e8e8f0; display:block; font-size:13px; }
+  .best { color:#7dff9b; }
+</style>
+</head>
+<body>
+<h1>GPT-5.4 IMAGE 2 — PROMPT EXPERIMENTS</h1>
+<div class="sub">Two techniques tested: (a) one call = a 2×3 grid of variations for cheap ideation; (b) long/weird prompts with HARD CONSTRAINTS FIRST. Both worked — the constraint-first preamble ("chess piece silhouette, NO legs, exactly two eyes") fully cured the silhouette drift from the model bake-off.</div>
+
+<h2>VARIATION GRIDS — 18 concepts from 3 API calls</h2>
+<div class="grid">
+  <figure><img src="output/grid-volt-1784939424212.png"><figcaption><b>Volt ×6</b>All six on-silhouette. Standouts: junkyard sticker-bombed (2), glass-with-a-storm-inside (4), dissolving-into-hexagons (5).</figcaption></figure>
+  <figure><img src="output/grid-fermata-1784939541692.png"><figcaption><b>Fermata ×6</b>Standouts: the text-runs-out-mid-sentence edge (3), candle keeping a dry circle in blank snow (4), running-girl shadow (5).</figcaption></figure>
+  <figure><img src="output/grid-marginalia-1784939675335.png"><figcaption><b>The Marginalia ×6</b>Standouts: doorway between two colossal pawns (1), owl card-catalog room (2), and the restricted shelf of CHAINED glitch-cards (4) — which incidentally solves what card backs should look like.</figcaption></figure>
+</div>
+
+<h2>LONG / WEIRD SINGLES — constraint-first + maximalist storytelling</h2>
+<div class="grid">
+  <figure><img src="output/weird-volt-1784940021181.png"><figcaption><b>Volt, causality dropout</b>Cartoon-cocky grin, magenta/cyan afterimages still finishing the previous joke, equations fleeing the frame — and the pawn pit crew actually holds up "9 · 9 · 5" score cards. Personality off the charts; a notch cartoonier than gemini-3-pro.</figcaption></figure>
+  <figure><img src="output/weird-fermata-1784940244617.png"><figcaption><b class="best">Fermata at the last paragraph — BEST IN PROJECT</b>The entire ground is dense printed text crumbling into floating punctuation; opal-blank sky; one hanging amber lantern; the running-girl shadow. This is a poster, a card, and the graphic novel's cover.</figcaption></figure>
+  <figure><img src="output/weird-hush-choir-1784940359509.png"><figcaption><b>The Hush processional</b>Porcelain monks with amber paper-boat crowns crossing the mirror-sea out of a dissolving chess-city — Turner-meets-Bosch painterly. Faction-defining world art.</figcaption></figure>
+</div>
+</body>
+</html>
