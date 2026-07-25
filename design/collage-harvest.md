@@ -2,9 +2,17 @@
 
 Two sources: Tom's ChatGPT suites (`art/reference/collage-suite-*.png`, `graphic-novel-p0*.png`) and our gpt-5.4 collage-binding test (`art/output/collage-*.png`). This file collects what should flow back into mechanics, cards, and canon.
 
-## The validated art architecture
+## The art architecture — REVISED (Tom's call, July 2026)
 
-**Collage is the game-wide binding; faction specimens are mounted inside it and LEAK.** Proven across all four factions in one generation each (see `art/output/collage-volt/colossus/nightclerk/fermata-*.png`):
+**SUPERSEDED:** the "collage as universal binding with mounted specimens" test below worked technically but reads flat — a painting taped into a page is a postcard, not a card. **New architecture: the document principle survives, the shared binding dies.** Each faction produces its own cards in its own documentation culture, edge to edge: Marginalia = archive collage pages (theirs alone); Glitchwrights = riso/photocopy workshop zine patch-notes (fluoro inks, misregistration-as-glitch, hazard tape, stamps); Errantry & Hush = TBD, each fully its own medium. The frame compositor + shared card back keep the product coherent.
+
+### Glitchwrights register: VALIDATED (art/output/zine-*.png)
+
+The Foundry's document culture is the **workshop-zine patch-note**: riso/screenprint on newsprint, fluoro pink + electric teal + acid yellow + warm black, photocopier grit, misregistration intensifying with glitch energy, hazard tape, staples, spiral-notebook tears, grease-pencil corrections ("PUSH HARDER", "MORE TAPE HERE"), TESTED stamps, version numbers, sticker-bombs, diagonal kinetic composition. All four tests landed first try: zine-volt (triple offset print), zine-solder (exploded jetpack diagram), zine-overclock (a CHESS CLOCK with fanned hands — effect cards work in pure imagery), zine-foundry (zine-cover scene: the arch, the daemon-jar wall). Prompt preamble lives in the zine test script; reuse as the Glitchwrights `ZINE` recipe.
+
+Open: Errantry + Hush document cultures. Current candidates — Errantry: painted waymarker panels (weathered wood, carved distances, votive smoke); Hush: letterpress deep-impression on near-blank paper, embossing, iridescent Nullity as the only color.
+
+**Original (superseded) test:** collage binding with faction specimens mounted inside that LEAK. Proven across all four factions in one generation each (see `art/output/collage-volt/colossus/nightclerk/fermata-*.png`):
 - Volt's riso misprint scorches the page and lifts its own tape (kinetic joy survives ✓)
 - The Colossus's cyan veins run off the plate into the paper; pressed moss taped alongside
 - The Night Clerk's lamplight falls on the page itself; a due-date card reads JUL 24
