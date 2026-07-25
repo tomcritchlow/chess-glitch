@@ -48,9 +48,9 @@ Each faction = a philosophy of the Glitch + a mechanical identity + a signature 
 
 ## Format v1 (concrete, playtestable)
 
-**Pack (32):** 8 character cards + 20 effect cards + 2 rules cards + 2 reference cards.
+**Pack (32):** 6 piece-suite cards + 8 character cards + 16 effect cards + 2 rules cards. (Structure v1 — see `constraints.md`; the 16 effects match the canonical "sixteen pressed glitches" field kit from `lore/the-unfinished-game.md`.)
 
-**Setup (one pack):** standard chess. Characters out face-up; players alternate picking until each has 2 (draft = the "pick your main" ritual). Shuffle the 20 effects as a shared deck; deal 3 each.
+**Setup (one pack):** standard chess. Characters out face-up; players alternate picking until each has 2 (draft = the "pick your main" ritual). Shuffle the 16 effects as a shared deck; deal 3 each. Piece-suite cards sit beside the board as the beginner's reference.
 **Setup (two packs):** draft 2 characters from *your* faction; your own 20-effect deck; draw from your own deck.
 
 **Characters ("Awakened"):** play one by attaching it to a matching piece on the board (ring/marker on the piece; card sits face-up in front of you). It grants a **persistent quirk** (always on, public) + a **signature move** (once per game — turn the card sideways when spent). If the piece is captured, the character card is lost with it — characters make you protective, effects make you reckless, and that tension is the game.

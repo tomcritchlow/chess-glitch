@@ -12,15 +12,16 @@ The product promise: **one booster pack is a complete game.** Everything else fl
   - **Option C — cards ARE the board/pieces.** Some cards double as board tiles or piece stand-ins (card backs tile into a board, or a "field" card grid). Most elegant, hardest to design.
   - Current lean: A for playtesting, decide A vs C before Kickstarter. Option C is the kind of trick that makes a Kickstarter video sing.
 
-## Card count math (32-card pack)
+## Card count math (32-card pack) — STRUCTURE v1
 
-Rough budget to keep honest:
-- 2 rules cards (rules must fit on 2 cards — this is a hard writing constraint)
-- 2 reference cards (turn order / card-type key)
-- 24–28 play cards
-- 0–4 board/piece utility cards (if Option C)
+- **2 rules cards** (rules must fit on 2 cards — hard writing constraint)
+- **6 piece-suite cards** — King through Pawn, one card each, with the piece's BASE chess move as its rules text, plus a tagline and flavor. This replaces the generic reference cards and delivers the beginner-friendliness promise directly: a kid who has never played chess learns each piece from its own card. (Idea validated by the ChatGPT piece-suite explorations in `art/reference/` — all five sheets independently landed on this shape.) In-world these are the six archetypes — the pieces that remember. Art exception: piece-suite cards MAY depict human figures (the piece's "memory"); Awakened character cards keep the strict piece-silhouette rule.
+- **8 Awakened character cards** — drafted at setup (see `factions.md`)
+- **16 effect cards** — the faction's play deck
 
-A 16-card pack halves the play cards (~12), which means every card must earn its slot twice over.
+6 + 8 + 16 + 2 = 32. Note the resonance, unplanned and now protected: **16 effect cards = "SIXTEEN PRESSED GLITCHES — for repairs"**, the field kit as canonized in `lore/the-unfinished-game.md`. The fiction and the pack math agree, and Set 01 "Field Kit" (`cards/set-01.md`) is already exactly 16 effects. Never break this number.
+
+Candidate piece-suite taglines (harvested from the reference sheets): King — *Sovereign of Unfinished Games* · Queen — *The Remembering Queen* · Bishop — *Keeper of Diagonal Truths* · Knight — *Walker of Impossible Paths* · Rook — *The Living Archive* · Pawn — *"Small isn't nothing. Small is how it begins."*
 
 ## Design constraints on the cards themselves
 

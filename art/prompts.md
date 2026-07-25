@@ -90,6 +90,17 @@ Rules learned:
 
 Ask ONE call for "a character design exploration sheet: ONE image divided into a clean 2x3 grid… six DIFFERENT takes… (1)…(2)…(3)…" with explicitly enumerated variations per cell. 18 concepts cost 3 calls. Zero in on winning cells, then regenerate them as full singles.
 
+## External reference: the ChatGPT piece suite (`art/reference/`)
+
+Five sheets Tom generated in ChatGPT (fed with our lore — they cite the Marginalia, the red scarf, unfinished games). Kept as reference, not canon art. What each earns:
+
+- **02-marginalia-collage — ADOPTED as the GRAPHIC NOVEL register.** Collage/catalog pages: typewriter rules text, ticket numbers, Marginalia seals, stamps, red thread. Tom's pick ("I could imagine a graphic novel in this style"). When story/graphic-novel art begins, this is the visual target — panels as archive documents.
+- **03-storybook-pixel-watercolor** — candidate register for the rules booklet / story pages: warm storybook watercolor where the glitch is pixelation. Kid-warm without kid-cheap.
+- **04-schematic-manuscript** — confirms our D5 register; steal its layout ideas (protocol boxes, WARNING stamps, per-piece file numbers).
+- **01 / 05 (tarot, art nouveau)** — frame-ornament reference only (tagline-under-title, catalog numbering, seals); the styles themselves drift generic-fantasy.
+
+Also harvested: the piece-suite product idea + taglines (now in `design/constraints.md`) and mechanic riffs worth playtesting (Knight: "land on a square with no memory → draw 1").
+
 ## Card frame notes (later)
 
 - Poker size (2.5" × 3.5"), art box roughly top 60%
