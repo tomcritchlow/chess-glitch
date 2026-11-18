@@ -47,3 +47,15 @@ Eight characters, two per order, so one Field Kit samples every faction's feel. 
 Watch-list: Triple Print (three knight hops is a lot of reach), Remember the Crown (strong catch-up — intended), Hush (feel-bad if it hits the opponent's favorite), Quiet Queen quirk (does untargetable queen make Patches dead?). Pip and Vesper have no on-model art yet (Design Review №1 asks Indy to draw them).
 
 Piece-suite cards (6) also live in `cards.js` (`window.GLITCH_PIECES`) with base moves + taglines.
+
+## Swap-in candidates (playtest v0.2)
+
+Five ALT cards printed with the deck (`window.GLITCH_CANDIDATES` in `cards.js`). Rule: after a game, swap one in for a glitch nobody played. The pack stays 16.
+
+| # | Name | Type | Rules text | Why test it |
+|---|------|------|-----------|-------------|
+| C1 | Knight Walk | Exploit | One of your knights may walk 1–2 squares straight forward (no capture). | Elena's 41. Ng1–g3 as a card — the lore's founding glitch. |
+| C2 | Sealed Move | Daemon | Write a move, fold it under this card; on a later turn reveal and make it before your normal move. Impossible → discard. | Adjournment as mechanic; delayed double-move with a visible marker. |
+| C3 | Silent Square | Daemon | Mark an empty square; a piece on it can't capture or be captured; mark goes when it leaves. | Hush identity (Null) in its simplest form. |
+| C4 | Off-Colour | Exploit | A bishop steps one square orthogonally. Your move. | Tiny, funny, permanently changes the bishop's colour complex. |
+| C5 | The Nullity Creeps | Event | Pencil along an edge file with no king; no piece may enter it for the rest of the game. | Live test of "The Creep" escalation dial from `design/mechanics.md`. |

@@ -72,3 +72,13 @@ window.GLITCH_PIECES = [
   { id: "P", piece: "pawn",   name: "Pawn",   tagline: "Small isn't nothing. Small is how it begins.", worth: 1,
     text: "Forward 1 (or 2 on its first move). Captures 1 square diagonally forward. Reach the far side: become any piece." },
 ];
+
+// Swap-in candidates (playtest only — the pack stays at 16 effects). Harvested from lore + the collage suites.
+// After a game, swap a candidate in for a card nobody played.
+window.GLITCH_CANDIDATES = [
+  { id: "C1", name: "Knight Walk", type: "Exploit", text: "This turn, one of your knights may walk 1 or 2 squares straight forward instead of jumping. It can't capture this way.", flavor: "41. Ng1–g3. The flourish on the 3 was confident." },
+  { id: "C2", name: "Sealed Move", type: "Daemon", text: "Write a move on paper, fold it, and put it under this card. On a later turn, reveal it and make that move before your normal move. If it's impossible, discard it.", flavor: "To be opened at the board, and only at the board." },
+  { id: "C3", name: "Silent Square", type: "Daemon", text: "Mark an empty square. A piece standing on it can't capture or be captured. Remove the mark when that piece leaves.", flavor: "The Hush keep a few squares for themselves." },
+  { id: "C4", name: "Off-Colour", type: "Exploit", text: "Move one of your bishops one square up, down, left, or right. This is your move for the turn.", flavor: "The Keeper of Diagonal Truths, briefly lying." },
+  { id: "C5", name: "The Nullity Creeps", type: "Event", text: "Lay a pencil along an edge file with no king on it. For the rest of the game, no piece may enter that file. Pieces already there may only leave.", flavor: "Squares taken by the Nullity simply stop." },
+];

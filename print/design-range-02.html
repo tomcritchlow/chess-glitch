@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Range Board №2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,400;1,6..72,500&family=Silkscreen&display=swap" rel="stylesheet">
+<!-- Print: A4 portrait, margins None, scale 100%, background graphics ON. New art lives in ../art/range/ (Codex / gpt-image, Nov 2026). -->
+<script src="../prototype/cards.js"></script>
+<script src="glyphs.js"></script>
+<style>
+  :root { --ink: #17161c; --mute: #6c6a73; --line: #dcd8d0; --signal: #0aa6c9; --static: #d02d7f;
+    --Glitchwrights: #e2307c; --Marginalia: #213f6e; --Errantry: #6b4cb2; --Hush: #2b2a31; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @page { size: A4; margin: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #8b8892; color: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif; }
+  .page { width: 210mm; height: 297mm; margin: 0 auto 24px; background: #fff; padding: 11mm 12mm 10mm; display: flex; flex-direction: column; gap: 4.5mm; overflow: hidden; break-after: page; page-break-after: always; }
+  .page:last-child { break-after: auto; page-break-after: auto; }
+  @media print { body { background: none; } .page { margin: 0; } }
+  .ph { display: flex; justify-content: space-between; font: 500 6.6pt "IBM Plex Mono", monospace; letter-spacing: .14em; color: #8e8a94; text-transform: uppercase; border-bottom: .8pt solid var(--line); padding-bottom: 3pt; }
+  .title { display: flex; align-items: flex-end; justify-content: space-between; gap: 10mm; }
+  .title h1 { font: 800 27pt/.95 "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+  .title .kicker { font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); margin-bottom: 3pt; }
+  .title p { font: 500 8.8pt/1.32 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; max-width: 88mm; text-align: right; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 2.5pt; }
+  figure { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+  figure .im { flex: 1; min-height: 0; }
+  figcaption { padding-top: 3pt; display: grid; grid-template-columns: 1fr auto; gap: 0 6pt; align-items: start; }
+  figcaption b { font: 800 9.6pt/1.1 "Bricolage Grotesque", sans-serif; }
+  figcaption .st { font: 600 5.9pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); display: block; margin-top: 1pt; }
+  figcaption p { grid-column: 1 / -1; font: 500 7.5pt/1.27 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; margin-top: 1.5pt; }
+  .ticks { display: flex; gap: 5pt; font: 600 6pt "IBM Plex Mono", monospace; padding-top: 1pt; }
+  .ticks span::before { content: ""; display: inline-block; width: 7.5pt; height: 7.5pt; border: 1pt solid var(--ink); border-radius: 50%; margin-right: 1.5pt; vertical-align: -2pt; }
+
+  /* page 1: characters */
+  .g9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm 4mm; flex: 1; min-height: 0; align-content: space-between; }
+  .g9 figure .im { flex: none; height: 60mm; }
+
+  /* page 2: card frames */
+  .frames { display: grid; grid-template-columns: repeat(3, 60mm); justify-content: space-between; gap: 7mm 0; flex: 1; align-content: center; }
+  .fr { display: flex; flex-direction: column; gap: 3pt; }
+  .card { width: 100%; aspect-ratio: 63 / 88; position: relative; overflow: hidden; border-radius: 7pt; box-shadow: 0 0 0 .6pt #00000022; }
+  .card * { line-height: 1.2; }
+  /* (a) field guide */
+  .fg { background: #f4ecd9; padding: 6pt; border-radius: 7pt; color: #3b2f22; font-family: "Newsreader", serif; display: flex; flex-direction: column; gap: 3pt; }
+  .fg .hd { display: flex; justify-content: space-between; align-items: baseline; border-bottom: .8pt solid #3b2f22; padding-bottom: 2pt; }
+  .fg .hd b { font: 500 13pt "Newsreader", serif; font-style: italic; }
+  .fg .hd span { font: 600 6pt "IBM Plex Mono", monospace; letter-spacing: .08em; }
+  .fg .art { height: 46%; border: .8pt solid #3b2f22; background-color: #fff; }
+  .fg .art img { border-radius: 0; }
+  .fg .stats { display: grid; grid-template-columns: repeat(3, 1fr); font: 600 5.3pt "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; border-bottom: .6pt dashed #3b2f2288; padding-bottom: 2pt; }
+  .fg .stats i { display: block; font: italic 500 7.6pt "Newsreader", serif; text-transform: none; letter-spacing: 0; }
+  .fg p { font: 500 6.5pt/1.25 "IBM Plex Sans Condensed", sans-serif; color: #2b2219; }
+  .fg p .k { font: 700 5.3pt "IBM Plex Mono", monospace; letter-spacing: .06em; border: .7pt solid #3b2f22; padding: 0 2pt; border-radius: 2pt; margin-right: 2pt; }
+  .fg .fl { font: italic 500 6.6pt "Newsreader", serif; margin-top: auto; color: #6b5a44; }
+  /* (b) full-art holo */
+  .holo { background: #000; color: #fff; }
+  .holo img { position: absolute; inset: 0; border-radius: 0; }
+  .holo::before { content: ""; position: absolute; inset: 0; z-index: 1; background: conic-gradient(from 200deg at 60% 30%, #ff9ae000, #ffe29a33, #9affc833, #9ad2ff40, #d29aff33, #ff9ae000); mix-blend-mode: screen; }
+  .holo .bar { position: absolute; z-index: 2; left: 5pt; right: 5pt; bottom: 5pt; background: #0b0b10cc; backdrop-filter: blur(3px); border: .6pt solid #ffffff40; border-radius: 4pt; padding: 4pt 6pt; }
+  .holo .nm { font: 800 11pt "Bricolage Grotesque", sans-serif; display: flex; justify-content: space-between; align-items: center; }
+  .holo .nm span { font: 600 5.4pt "IBM Plex Mono", monospace; letter-spacing: .1em; opacity: .8; }
+  .holo p { font: 500 6.3pt/1.25 "IBM Plex Sans Condensed", sans-serif; opacity: .92; margin-top: 2pt; }
+  .holo .top { position: absolute; z-index: 2; top: 6pt; left: 7pt; font: 600 5.4pt "IBM Plex Mono", monospace; letter-spacing: .14em; opacity: .85; }
+  /* (c) swiss */
+  .swiss { background: #fff; display: grid; grid-template-rows: auto 1fr auto; border: 1pt solid var(--ink); }
+  .swiss .blk { background: var(--static); color: #fff; display: flex; justify-content: space-between; align-items: flex-start; padding: 5pt 6pt 3pt; }
+  .swiss .blk b { font: 900 34pt/.8 "Big Shoulders Display", sans-serif; }
+  .swiss .blk .r { text-align: right; font: 600 5.4pt "IBM Plex Mono", monospace; letter-spacing: .08em; line-height: 1.35; }
+  .swiss .mid { display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+  .swiss .mid .art { min-height: 0; border-right: 1pt solid var(--ink); }
+  .swiss .mid .art img { border-radius: 0; object-position: 60% 30%; }
+  .swiss .mid .tx { padding: 5pt; display: flex; flex-direction: column; gap: 3pt; }
+  .swiss .mid .tx h4 { font: 800 12pt/.95 "Bricolage Grotesque", sans-serif; }
+  .swiss .mid .tx p { font: 500 6.2pt/1.25 "IBM Plex Sans Condensed", sans-serif; }
+  .swiss .mid .tx p b { font: 700 5.3pt "IBM Plex Mono", monospace; letter-spacing: .06em; display: block; color: var(--static); }
+  .swiss .ft { border-top: 1pt solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); font: 600 5.2pt "IBM Plex Mono", monospace; letter-spacing: .06em; }
+  .swiss .ft span { padding: 2.5pt 4pt; border-right: .6pt solid var(--ink); }
+  /* (d) due-date ticket */
+  .ticket { background: #f1e6c8; padding: 0; color: #2a2116; display: flex; flex-direction: column; }
+  .ticket .art { height: 50%; position: relative; }
+  .ticket .art img { border-radius: 0; image-rendering: pixelated; }
+  .ticket .perf { height: 6pt; background: radial-gradient(circle at 3pt 3pt, #fff 1.6pt, transparent 1.9pt) 0 0 / 7pt 6pt; margin-top: -3pt; position: relative; z-index: 1; }
+  .ticket .bd { padding: 3pt 6pt 5pt; display: flex; flex-direction: column; gap: 2.5pt; flex: 1; }
+  .ticket h4 { font: 400 10pt "Silkscreen", monospace; letter-spacing: .02em; color: #213f6e; }
+  .ticket p { font: 500 6.3pt/1.25 "IBM Plex Sans Condensed", sans-serif; }
+  .ticket .due { display: grid; grid-template-columns: repeat(4, 1fr); border: .7pt solid #213f6e; margin-top: auto; }
+  .ticket .due span { font: 600 5pt "IBM Plex Mono", monospace; color: #213f6e; border-right: .5pt solid #213f6e55; padding: 1.5pt 2pt; }
+  .ticket .stamp { position: absolute; right: 7pt; top: 52%; transform: rotate(-12deg); border: 1.4pt solid #c4362c; color: #c4362c; font: 700 6.5pt "IBM Plex Mono", monospace; letter-spacing: .1em; padding: 1.5pt 4pt; border-radius: 2pt; opacity: .85; z-index: 2; }
+  /* (e) debossed */
+  .deboss { background: #f6f1e7; display: flex; flex-direction: column; padding: 7pt; gap: 4pt; box-shadow: inset 0 0 0 .6pt #00000018; }
+  .deboss .art { height: 55%; border-radius: 4pt; box-shadow: inset 0 1.5pt 3pt #00000040, inset 0 -1pt 1pt #ffffffaa; overflow: hidden; }
+  .deboss .art img { border-radius: 0; opacity: .97; }
+  .deboss h4 { font: 500 6.8pt "IBM Plex Mono", monospace; letter-spacing: .3em; text-transform: uppercase; color: #8b857a; text-align: center; text-shadow: 0 1px 0 #fff, 0 -.5px 0 #00000030; }
+  .deboss p { font: italic 500 6.8pt/1.3 "Newsreader", serif; color: #4b463d; text-align: center; }
+  .deboss .void { margin: auto auto 0; width: 13pt; height: 13pt; border: 1pt dashed #b4ad9f; }
+  /* (f) sticker */
+  .sticker { background: #fff6cc; padding: 6pt; display: flex; flex-direction: column; gap: 3pt; background-image: repeating-linear-gradient(-45deg, transparent 0 7pt, #00000008 7pt 14pt); }
+  .sticker .art { height: 56%; border: 2pt solid #000; border-radius: 6pt; transform: rotate(-1.6deg); box-shadow: 3pt 3pt 0 #000; overflow: hidden; background: #000; }
+  .sticker .art img { border-radius: 0; }
+  .sticker h4 { font: 900 17pt/.85 "Big Shoulders Display", sans-serif; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-top: 3pt; }
+  .sticker h4 span { font: 700 9pt "Bricolage Grotesque", sans-serif; background: var(--Glitchwrights); color: #fff; border-radius: 50%; width: 20pt; height: 20pt; display: grid; place-items: center; transform: rotate(8deg); }
+  .sticker p { font: 600 6.3pt/1.25 "IBM Plex Sans Condensed", sans-serif; background: #fff; border: 1pt solid #000; padding: 3pt 4pt; }
+  .sticker .tape { position: absolute; top: 2pt; left: 50%; width: 30pt; height: 9pt; background: #ffffffcc; transform: translateX(-50%) rotate(4deg); box-shadow: 0 0 0 .4pt #00000022; z-index: 2; }
+  .fr .lbl b { font: 800 9.6pt "Bricolage Grotesque", sans-serif; }
+  .fr .lbl p { font: 500 7.4pt/1.27 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; }
+  .fr .lbl { display: grid; grid-template-columns: 1fr auto; gap: 0 4pt; }
+  .fr .lbl p { grid-column: 1 / -1; }
+
+  /* page 3 + 4 + 5 grids */
+  .world { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.75fr 1fr 1fr; gap: 4mm; flex: 1; min-height: 0; }
+  .world .wide { grid-column: 1 / -1; }
+  .marks { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 0.9fr; gap: 4mm; flex: 1; min-height: 0; }
+  .marks .tall { grid-row: 1 / 3; }
+  .marks .wide { grid-column: 1 / -1; }
+  .product { display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: 1.15fr 1fr 1fr; gap: 4mm; flex: 1; min-height: 0; }
+  .product .wide { grid-column: 1 / -1; }
+  .im.contain img { object-fit: contain; background: #f3f1ec; }
+  .backs .im.contain img { background: #2a1d14; }
+  .logos .im.contain img { background: #fff; border: .6pt solid var(--line); }
+  .take { border-top: 1.2pt solid var(--ink); padding-top: 4pt; display: grid; grid-template-columns: auto 1fr; gap: 8pt; align-items: baseline; }
+  .take b { font: 600 6.6pt "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
+  .take p { font: 500 8.4pt/1.35 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  const RG = "../art/range/";
+  const TOTAL = 5; let n = 0;
+  const ph = (t) => `<header class="ph"><span>Glitch Chess — Range Board №2 · ${t}</span><span>${String(++n).padStart(2, "0")} / ${TOTAL}</span></header>`;
+  const ticks = `<span class="ticks"><span>♥</span><span>✗</span></span>`;
+  const fig = (f, name, style, note, pos = "center", cls = "", contain = false) =>
+    `<figure class="${cls}"><div class="im${contain ? " contain" : ""}"><img src="${RG}${f}.png" style="object-position:${pos}"></div>
+      <figcaption><div><b>${name}</b><span class="st">${style}</span></div>${ticks}<p>${note}</p></figcaption></figure>`;
+  const A = Object.fromEntries(window.GLITCH_AWAKENED.map((a) => [a.name, a]));
+  const pages = [];
+
+  // ---------- 1. characters ----------
+  pages.push(`<section class="page">${ph("Characters")}
+    <div class="title"><div><div class="kicker">Nine ways to draw an Awakened</div><h1>Same world,<br>nine hands.</h1></div>
+      <p>None of these styles are in the first review. Each one is a different answer to “what IS a chess piece that woke up?” Heart the ones that feel like Glitch Chess; cross the ones that don't.</p></div>
+    <div class="g9">
+      ${fig("c-clay-solder", "Solder", "Stop-motion clay", "Thumbprints and cotton-wool smoke. Instantly lovable, and pieces become real objects you could make at home.", "center 35%")}
+      ${fig("c-manga-volt", "Volt", "Manga ink + one spot colour", "One ink and one colour: the cheapest to print and the loudest. The triple-exposure teleport reads instantly.", "center 30%")}
+      ${fig("c-kintsugi-queen", "The Quiet Queen", "Porcelain + kintsugi", "Gold-mended breaks: repair is the whole lore. The most grown-up image here. Is it too still for a kid?", "center 30%")}
+      ${fig("c-papercut-fermata", "Fermata", "Cut-paper shadow box", "The world literally made of pressed paper. Pairs with the Hush's ‘empty forms’ but is warmer.", "center 60%")}
+      ${fig("c-pixel-nightclerk", "The Night Clerk", "Modern pixel art", "Glitches look native in pixels. Risk: cosy, not cool, and reads ‘video game’ more than ‘card game’.", "center 40%")}
+      ${fig("c-vinyl-vesper", "Vesper", "Designer vinyl toy", "Character design as product design. Vesper finally has a body: a wandering bishop. This could be a real figure.", "center 40%")}
+      ${fig("c-linocut-colossus", "The Colossus", "Two-ink linocut", "Monumental and graphic, carved not drawn. A strong graphic-novel cover language.", "center 45%")}
+      ${fig("c-fieldguide-pawns", "Awakened Pawns", "Natural-history plate", "A field guide to living chess pieces: the Pokédex instinct in Glitch Chess's own literary voice.", "center 40%")}
+      ${fig("c-paperback-errantry", "The Errantry", "70s sci-fi paperback", "Airbrushed adventure. Big ‘there is a WORLD out there’ energy. The pieces read as heroic statues.", "center 45%")}
+    </div></section>`);
+
+  // ---------- 2. card frames ----------
+  const vesper = A["Vesper"], queen = A["The Quiet Queen"], volt = A["Volt"], clerk = A["The Night Clerk"], ferm = A["Fermata"], sold = A["Solder"];
+  const frames = [
+    [`<div class="card fg"><div class="hd"><b>Vesper</b><span>№ 06 · BISHOP</span></div><div class="art"><img src="${RG}c-vinyl-vesper.png" style="object-position:center 35%"></div>
+       <div class="stats"><div>Order<i>Errantry</i></div><div>Height<i>1 square</i></div><div>Seen<i>Rarely, twice</i></div></div>
+       <p><span class="k">QUIRK</span>${vesper.quirk}</p><p><span class="k">ONCE</span><b>${vesper.signatureName}:</b> ${vesper.signature}</p><p class="fl">${vesper.flavor}</p></div>`,
+     "Field Guide", "Every card is a specimen entry: number, order, habitat. Built-in collectability without rarity power."],
+    [`<div class="card holo"><img src="${RG}c-kintsugi-queen.png" style="object-position:center 25%"><span class="top">A7 · THE HUSH</span><div class="bar"><div class="nm">${queen.name}<span>QUEEN</span></div><p><b>Quirk:</b> ${queen.quirk}</p><p><b>${queen.signatureName}:</b> ${queen.signature}</p></div></div>`,
+     "Full-art holo", "Art wall to wall, rules on smoked glass. The ‘pull’ card. Needs strong art every time."],
+    [`<div class="card swiss"><div class="blk"><b>N</b><div class="r">A1<br>GLITCHWRIGHTS<br>KNIGHT</div></div>
+       <div class="mid"><div class="art"><img src="${RG}c-manga-volt.png"></div><div class="tx"><h4>Volt</h4><p><b>QUIRK</b>${volt.quirk}</p><p><b>ONCE · ${volt.signatureName.toUpperCase()}</b>${volt.signature}</p></div></div>
+       <div class="ft"><span>SIG</span><span>STA</span><span>FK1</span><span>v0.2</span></div></div>`,
+     "Swiss grid", "The piece letter is the logo. Calm, clear and grown-up; the art does the shouting."],
+    [`<div class="card ticket"><div class="art"><img src="${RG}c-pixel-nightclerk.png" style="object-position:center 35%"></div><div class="perf"></div><span class="stamp">OVERDUE</span>
+       <div class="bd"><h4>NIGHT CLERK</h4><p><b>Quirk:</b> ${clerk.quirk}</p><p><b>${clerk.signatureName}:</b> ${clerk.signature}</p>
+       <div class="due"><span>DUE</span><span>JUN 14</span><span>APR 02</span><span>—</span></div></div></div>`,
+     "Library ticket", "Perforations, due dates, overdue stamps: the Marginalia's own paperwork, as a frame."],
+    [`<div class="card deboss"><div class="art"><img src="${RG}c-papercut-fermata.png" style="object-position:center 70%"></div><h4>Fermata</h4><p>${ferm.signature}</p><div class="void"></div></div>`,
+     "Debossed blank", "Almost nothing printed, everything pressed. Quiet cards for the Hush; gorgeous in real letterpress."],
+    [`<div class="card sticker"><span class="tape"></span><div class="art"><img src="${RG}c-clay-solder.png" style="object-position:center 30%"></div><h4>Solder<span>9.5</span></h4><p><b>QUIRK</b> ${sold.quirk}<br><b>ONCE</b> ${sold.signatureName}: ${sold.signature}</p></div>`,
+     "Sticker-bomb", "Taped-on art, judges' scores, hard shadows. Pure Glitchwright fun, and the most ‘kid’ of the six."],
+  ];
+  pages.push(`<section class="page">${ph("Card frames")}
+    <div class="title"><div><div class="kicker">The frame is the brand</div><h1>Six frames,<br>real rules text.</h1></div>
+      <p>Pokémon is recognisable because of its frame, not its art. These are built with real card text at nearly actual size (cut one out and hold it). Pick the frame you'd want to see 32 of.</p></div>
+    <div class="frames">${frames.map(([card, name, note]) => `<div class="fr">${card}<div class="lbl"><b>${name}</b>${ticks}<p>${note}</p></div></div>`).join("")}</div>
+    <div class="take"><b>Note</b><p>One frame doesn't have to mean one art style. Option 3 from Review №1 (“shiny characters, homemade glitches”) works with any of these frames: the frame keeps the deck coherent while the art inside changes by order.</p></div>
+  </section>`);
+
+  // ---------- 3. world ----------
+  pages.push(`<section class="page">${ph("The world")}
+    <div class="title"><div><div class="kicker">Places, not just pieces</div><h1>Where does it<br>all happen?</h1></div>
+      <p>Pokémon is a world before it's a card. These test how Ivy City could look: as a map, a diorama, a film, an empty edge.</p></div>
+    <div class="world">
+      ${fig("w-map-ivycity", "Ivy City", "Adventure-novel endpaper map", "The rulebook's first spread, the Kickstarter page, a poster in the box. Every place a story lives.", "center 30%", "wide")}
+      ${fig("w-iso-marginalia", "The Marginalia", "Isometric diorama", "A bookshop in the gap between two cobblestones. You want to climb inside.", "center")}
+      ${fig("w-foundry", "The Foundry", "Animated-feature concept art", "The Glitchwrights' workshop under the viaduct: daemon jars, test flights.", "center")}
+      ${fig("w-nullity", "The Nullity", "Minimal matte painting", "The enemy is an absence. Calm, not scary. Fermata keeps it company.", "center")}
+      ${fig("w-concordance", "The Concordance", "Graphic-novel key art", "Four orders at one table, and the fifth chair still empty.", "center")}
+    </div></section>`);
+
+  // ---------- 4. story + marks ----------
+  pages.push(`<section class="page">${ph("Story & marks")}
+    <div class="title"><div><div class="kicker">Things you'd wear, collect, read</div><h1>Beyond<br>the cards.</h1></div>
+      <p>A world gets real when it has merch and a comic. These test the orders as badges, the card back, the logo, and Story 01 as a comic page.</p></div>
+    <div class="marks">
+      ${fig("w-comicpage", "The Unfinished Game, p.1", "Ligne-claire comic", "Story 01 in a clean European style. Bright, readable, not the brown collage look.", "top", "tall")}
+      ${fig("m-pins", "Order pins", "Hard enamel", "Pick your order and wear it. Cheap Kickstarter add-on.", "center")}
+      ${fig("m-patches", "Order patches", "Embroidered", "Same marks, softer. The Hush patch is almost blank.", "center")}
+      ${fig("m-cardbacks", "Card backs", "Three directions", "Tracery grid / library catalogue card / holo void. The back is the one design every card shares.", "center", "wide backs", true)}
+    </div></section>`);
+
+  // ---------- 5. product ----------
+  pages.push(`<section class="page">${ph("The product")}
+    <div class="title"><div><div class="kicker">What you actually hold</div><h1>The pack<br>and the table.</h1></div>
+      <p>The lore already designed the product: a field kit is a cream packet of sixteen pressed glitches tied with red thread. Should the real pack be that, or a shiny foil pack?</p></div>
+    <div class="product">
+      ${fig("p-kickstarter", "The whole kit", "Kickstarter flat-lay", "Four order packs, the graphic novel, a playmat game in progress. The campaign's hero image.", "center", "wide")}
+      ${fig("p-fieldkit", "Field Kit №1, as in the story", "Archive packet", "Paper, thread, wax. Unlike any card pack on a shelf, and straight out of Story 01.", "center")}
+      ${fig("p-foilpack", "Field Kit №1, foil", "Booster pack", "Instantly reads ‘card pack’. Familiar, exciting, but everyone's pack looks like this.", "center")}
+      ${fig("m-logos", "Logo explorations", "Six wordmarks", "Generated sketches, not finals: which direction should a designer refine? (Compare with the hand-set wordmarks in Review №1.)", "center", "wide logos", true)}
+    </div>
+  </section>`);
+
+  document.getElementById("root").innerHTML = pages.join("");
+})();
+</script>
+</body>
+</html>
