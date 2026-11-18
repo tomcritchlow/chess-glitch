@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <!--
-  Print: US Letter, portrait, margins "None", scale 100%, "Background graphics" ON.
+  Print: A4, portrait, margins "None", scale 100%, "Background graphics" ON.
   Cut along the grey lines (a paper trimmer makes this fast). Sleeve each card in front of an old playing card for stiffness.
   Data: prototype/cards.js (effects, Awakened, pieces). Rules-card text lives here.
 -->
@@ -21,11 +21,11 @@
     --council: #17161c;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  @page { size: letter; margin: 0; }
+  @page { size: A4; margin: 0; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body { background: #8b8892; font-family: "IBM Plex Sans Condensed", sans-serif; color: var(--ink); }
   .sheet {
-    width: 8.5in; height: 11in; background: #fff; margin: 0 auto 24px; position: relative;
+    width: 210mm; height: 297mm; background: #fff; margin: 0 auto 24px; position: relative;
     display: grid; grid-template-columns: repeat(3, 2.5in); grid-template-rows: repeat(3, 3.5in);
     justify-content: center; align-content: center; page-break-after: always; break-after: page;
   }
@@ -121,6 +121,15 @@
   .tok.ringtok::after { content: ""; position: absolute; inset: .26in; border-radius: 50%; border: .6pt dashed #bbb; }
   .tok.ringtok .t { bottom: .055in; font-size: 5pt; }
   .tok.ringtok .name { font: 800 7pt "Bricolage Grotesque", sans-serif; position: absolute; top: .06in; left: 0; right: 0; color: var(--c); }
+  .lt { width: 100%; border-collapse: collapse; margin-bottom: 14pt; }
+  .lt th { font: 600 6.6pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); text-align: left; border-bottom: 1.2pt solid var(--ink); padding: 3pt 4pt; }
+  .lt td { height: .5in; border-bottom: .7pt solid var(--line); padding: 3pt 4pt; font: 500 7.5pt "IBM Plex Mono", monospace; color: #b2aeb8; vertical-align: top; }
+  .lt td:first-child { font: 800 12pt "Bricolage Grotesque", sans-serif; color: var(--ink); width: .3in; }
+  .lt td:nth-child(2) { width: .75in; } .lt td:nth-child(3) { width: .55in; }
+  .tallyh { font: 600 6.8pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin-bottom: 6pt; }
+  .tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 14pt; }
+  .tally div { display: flex; align-items: flex-end; gap: 5pt; border-bottom: .7pt solid var(--line); padding: 6pt 0 2pt; font: 600 8pt "IBM Plex Sans Condensed", sans-serif; }
+  .tally i { flex: 1; }
   .howto { margin-top: 10pt; border-top: .8pt solid var(--line); padding-top: 9pt; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12pt; }
   .howto div { font: 500 8.3pt/1.3 "IBM Plex Sans Condensed", sans-serif; }
   .howto b { display: block; font: 600 6.6pt "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin-bottom: 2pt; }
@@ -131,7 +140,7 @@
 <script>
 (function () {
   const { piece, pieceSVG, sigil, board, ENEMY } = window.GG;
-  const E = window.GLITCH_CARDS, A = window.GLITCH_AWAKENED, P = window.GLITCH_PIECES;
+  const E = window.GLITCH_CARDS, A = window.GLITCH_AWAKENED, CAND = window.GLITCH_CANDIDATES;
   const TYPE_ICON = {
     Exploit: `<svg viewBox="0 0 24 24" width="15" height="15"><path d="M13 2 L5 14 L11 14 L10 22 L19 9 L13 9 Z" fill="#fff"/></svg>`,
     Patch: `<svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 2 L20 5.5 V11 C20 16 16.5 20 12 22 C7.5 20 4 16 4 11 V5.5 Z" fill="#fff"/></svg>`,
@@ -181,20 +190,28 @@
     16: (k) => board({ cols: 5, rows: 4, tint: tint("Event"), accent: k }).piece(1, 2, "pawn", "you", true).piece(1, 3, "pawn").arrow(1, 2, 1, 3, { shorten: 8, color: "#17161c" })
           .piece(3, 1, "pawn", "enemy", true).piece(3, 0, "pawn", "enemy").arrow(3, 1, 3, 0, { shorten: 8, color: ENEMY })
           .raw(`<g fill="none" stroke="${k}" stroke-width="1.3" opacity=".8"><path d="M2 40 q6 -5 12 0 t12 0"/><path d="M58 52 q6 -5 12 0 t12 0"/><path d="M70 20 q6 -5 12 0 t12 0"/></g>`).svg(),
+    C1: (k) => board({ cols: 5, rows: 4, tint: tint("Exploit"), accent: k }).dot(2, 2).dot(2, 1).piece(2, 3, "knight").arrow(2, 3, 2, 1, { shorten: 9, startShorten: 9 })
+          .arrow(2, 3, 3, 1, { color: "#c9c6cf", dash: true, bend: -6, shorten: 6 }).arrow(2, 3, 1, 1, { color: "#c9c6cf", dash: true, bend: 6, shorten: 6 }).svg(),
+    C2: (k) => `<svg viewBox="0 0 120 80" width="100%" height="100%"><g transform="rotate(-4 60 40)"><rect x="22" y="14" width="76" height="50" rx="3" fill="#fbf3e2" stroke="#17161c" stroke-width="1.3"/><path d="M22 16 L60 44 L98 16" fill="none" stroke="#17161c" stroke-width="1.3"/><circle cx="60" cy="44" r="8.5" fill="#c4362c"/><circle cx="60" cy="44" r="5" fill="none" stroke="#fff" stroke-width=".8" opacity=".7"/><text x="30" y="60" font-family="Newsreader, serif" font-style="italic" font-size="8" fill="#17161c">White's 41st —</text></g><text x="60" y="77" text-anchor="middle" font-family="IBM Plex Mono" font-weight="600" font-size="6" fill="${k}" letter-spacing=".8">OPEN AT THE BOARD</text></svg>`,
+    C3: (k) => board({ cols: 5, rows: 4, tint: tint("Daemon"), accent: k }).raw(`<rect x="41.5" y="21.5" width="17" height="17" fill="none" stroke="${k}" stroke-width="1.6" stroke-dasharray="3 2"/>`).piece(2, 1, "rook")
+          .piece(0, 3, "bishop", "enemy").arrow(0, 3, 2, 1, { color: ENEMY, dash: true, shorten: 10 }).x(1.3, 1.7, ENEMY, 3.5).svg(),
+    C4: (k) => { const b = board({ cols: 5, rows: 5, tint: tint("Exploit"), accent: k }); [[0,-1],[1,0],[0,1],[-1,0]].forEach(([dx, dy]) => b.arrow(2, 2, 2 + dx, 2 + dy, { shorten: 5, startShorten: 8 })); [[1,1],[3,3],[1,3],[3,1]].forEach(([x, y]) => b.x(x, y, "#c9c6cf", 3)); return b.piece(2, 2, "bishop").svg(); },
+    C5: (k) => { const b = board({ cols: 6, rows: 4, tint: tint("Event"), accent: k }); b.raw(`<rect x="0" y="0" width="20" height="80" fill="#fff" opacity=".72"/><rect x="0" y="0" width="20" height="80" fill="none" stroke="#c9c6cf" stroke-dasharray="2 2"/><rect x="19" y="-3" width="3" height="86" rx="1.5" fill="#e3b341" stroke="#17161c" stroke-width=".6"/>`);
+          return b.piece(1, 2, "rook").piece(3, 1, "knight", "enemy").piece(0, 1, "pawn", "enemy", true).arrow(1, 2, 0, 2, { color: ENEMY, shorten: 8 }).x(0.5, 2, ENEMY, 3).svg(); },
   };
 
-  const LORE_SOURCE = { Exploit: "Glitchwright harvest", Patch: "Marginalia annotation", Daemon: "kept in a jar", Event: "the world, glitching" };
+  const LORE_SOURCE = { Exploit: "Glitchwright harvest", Patch: "Marginalia annotation", Daemon: "kept in a jar", Event: "world glitch" };
 
   function effectCard(card) {
     const k = T[card.type];
     const long = card.name.length > 13 ? "long" : "";
     const when = WHEN[card.id] ? `<span class="when">${WHEN[card.id]}</span>` : "";
     return `<div class="card ${card.type}"><div class="face">
-      <div class="head"><span class="glyph">${TYPE_ICON[card.type]}</span><h2 class="${long}">${card.name}</h2><span class="num">FK1<br>${String(card.id).padStart(2, "0")}</span></div>
+      <div class="head"><span class="glyph">${TYPE_ICON[card.type]}</span><h2 class="${long}">${card.name}</h2><span class="num">${String(card.id).startsWith("C") ? "ALT<br>" + card.id : "FK1<br>" + String(card.id).padStart(2, "0")}</span></div>
       <div class="typeline"><span>${TYPE_NOTE[card.type]}</span><span>${LORE_SOURCE[card.type]}</span></div>
       <div class="window">${D[card.id](k)}</div>
       <div class="body"><p class="rules">${when}${card.text}</p><p class="flavor">${card.flavor}</p></div>
-      <div class="foot"><span>Field Kit №1</span><span>Playtest v0.1</span></div>
+      <div class="foot"><span>${String(card.id).startsWith("C") ? "★ Swap-in candidate" : "Field Kit №1"}</span><span>Playtest v0.2</span></div>
     </div></div>`;
   }
 
@@ -210,7 +227,7 @@
         <p class="ab"><span class="k sig">Once</span><span class="sn">${a.signatureName}:</span> ${a.signature}</p>
         <p class="flavor">${a.flavor}</p>
       </div>
-      <div class="foot"><span>The ${a.faction}</span><span>${a.piece} · Playtest v0.1</span></div>
+      <div class="foot"><span>The ${a.faction}</span><span>${a.piece} · Playtest v0.2</span></div>
     </div></div>`;
   }
 
@@ -243,29 +260,30 @@
     `<div class="card rulescard"><div class="face">
       <div class="head"><span class="glyph">${sigil("Council", 14, "#fff")}</span><h2>How to Play</h2><span class="num">RULES<br>1 / 2</span></div>
       <div class="body">
-        <p style="font:italic 500 8pt/1.2 Newsreader,serif;color:var(--mute)">Chess, but the rules are glitching.</p>
+        <p style="font:italic 500 8pt/1.2 Newsreader,serif;color:var(--mute)">Normal chess, but the rules are glitching.</p>
         <h3>Setup</h3>
-        <ul><li>Set up chess. <span class="sig">Signal</span> plays white and goes first. <span class="sta">Static</span> plays black.</li>
-        <li>Lay out the 8 Awakened. Take turns picking (Static first) until you each have 2.</li>
-        <li>Shuffle the 16 glitches. Deal 3 each, face up. <i>Repairs are played open.</i></li></ul>
+        <p>Set up chess. <span class="sig">Signal</span> plays white and goes first. <span class="sta">Static</span> plays black. Shuffle the 16 glitches, deal 3 each <b>face up</b>.</p>
         <h3>Your turn</h3>
-        <ol><li>Play <b>one card</b> if you want.</li><li>Make <b>one move</b>.</li></ol>
+        <ol><li>Play <b>up to one card</b>.</li><li>Make <b>one move</b>. (Some cards are your move.)</li></ol>
         <div class="callout">LOSE A PIECE → DRAW A CARD<small>Checkmate wins. Cards never capture a king.</small></div>
+        ${TYPE_KEY}
+        <p style="font-size:7pt;color:var(--mute)">Used cards go face up to a discard pile; reshuffle when the deck runs out. Argue about a card? Decide, then write it on the playtest log.</p>
       </div>
-      <div class="foot"><span>Field Kit №1</span><span>Playtest v0.1</span></div></div></div>`,
+      <div class="foot"><span>Field Kit №1</span><span>Playtest v0.2</span></div></div></div>`,
     `<div class="card rulescard"><div class="face">
-      <div class="head"><span class="glyph">${sigil("Council", 14, "#fff")}</span><h2>Awakened &amp; Glitches</h2><span class="num">RULES<br>2 / 2</span></div>
+      <div class="head"><span class="glyph">${sigil("Council", 14, "#fff")}</span><h2 class="long">Game 2+: Awakened</h2><span class="num">RULES<br>2 / 2</span></div>
       <div class="body">
-        <h3>Awakened</h3>
-        <ul><li><b>Awaken</b> = play a character as your card. Put a ring on a matching piece. Its <b>Quirk</b> is always on.</li>
+        <p style="font:italic 500 8pt/1.2 Newsreader,serif;color:var(--mute)">Play one game with glitches only. Then add these.</p>
+        <h3>Draft</h3>
+        <p>Lay out the 8 Awakened. Take turns picking (Static first) until you each have 2.</p>
+        <h3>Play</h3>
+        <ul><li><b>Awaken</b> = play a character as your card. Put its ring under a matching piece. Its <b>Quirk</b> is always on.</li>
         <li><b>Once</b> per game, use its signature instead of playing a card. Turn the character sideways.</li>
         <li>Ringed piece captured? The character goes too.</li></ul>
-        <h3>Glitches</h3>
-        ${TYPE_KEY}
-        <p>Used cards go face-up in a discard pile. Deck empty? Shuffle the discards.</p>
-        <div class="callout" style="background:#fff;color:var(--ink);border:1pt solid var(--ink)">BEGINNER RULE<small style="opacity:1">Capture the king to win. No checkmate needed.</small></div>
+        <h3>Swap-ins</h3>
+        <p>After a game, swap any <b>★ ALT</b> card in for a glitch nobody played.</p>
       </div>
-      <div class="foot"><span>Field Kit №1</span><span>Playtest v0.1</span></div></div></div>`,
+      <div class="foot"><span>Field Kit №1</span><span>Playtest v0.2</span></div></div></div>`,
   ];
 
   const blank = (n) => `<div class="card blank"><div class="face">
@@ -273,17 +291,16 @@
       <div class="typepick"><span>Exploit</span><span>Patch</span><span>Daemon</span><span>Event</span></div>
       <div class="window">DRAW IT</div>
       <div class="lines"></div>
-      <div class="foot"><span>Invented by ___________</span><span>Playtest v0.1</span></div></div></div>`;
+      <div class="foot"><span>Invented by ___________</span><span>Playtest v0.2</span></div></div></div>`;
 
   const cards = [
     ...RULES,
-    ...P.map(pieceCard),
-    ...A.map(charCard),
     ...E.map(effectCard),
-    blank("17"), blank("18"), blank("19"), blank("20"),
+    ...A.map(charCard), blank("17"),
+    ...CAND.map(effectCard), blank("18"), blank("19"), blank("20"), blank("21"),
   ];
 
-  const labels = ["Rules · Pieces", "Pieces · Awakened", "Awakened · Glitches", "Glitches", "Glitches · Blank cards"];
+  const labels = ["Rules · Glitches 1–7", "Glitches 8–16", "Awakened (game 2+)", "Swap-in candidates · Blank cards"];
   let html = "";
   for (let i = 0; i < cards.length; i += 9) {
     const n = i / 9;
@@ -307,13 +324,24 @@
     <div class="tokgroup"><h4>Awakened rings — set the piece on top of its ring</h4><div class="tokrow">${rings}</div></div>
     <div class="tokgroup"><h4>Daemon markers</h4><div class="tokrow">${rep(2, tok("#df930c", wallIcon, "Firewall"))}${rep(2, tok("#df930c", ghostIcon, "Haunt"))}${rep(2, tok("#df930c", pauseIcon, "Lag Spike"))}${tok("#cf2f86", noCap, "Blue Screen")}</div></div>
     <div class="tokgroup"><h4>Signature markers</h4><div class="tokrow">${rep(2, tok("#6b4cb2", shieldIcon, "Errantry"))}${rep(2, tok("#2b2a31", nullIcon, "Hushed"))}${rep(2, tok("#6b4cb2", pieceSVG("bishop", 22, "#6b4cb2"), "Walked off"))}</div></div>
+    <div class="tokgroup"><h4>Swap-in markers</h4><div class="tokrow">${rep(2, tok("#df930c", `<svg viewBox="0 0 24 24" width="24" height="24"><rect x="4" y="4" width="16" height="16" fill="#fff" stroke="#df930c" stroke-width="2" stroke-dasharray="3 2"/><circle cx="12" cy="12" r="2" fill="#df930c"/></svg>`, "Silent Sq."))}${rep(2, tok("#df930c", `<svg viewBox="0 0 24 24" width="26" height="22"><rect x="2" y="5" width="20" height="14" rx="1.5" fill="#fbf3e2" stroke="#17161c"/><path d="M2 6 L12 13 L22 6" fill="none" stroke="#17161c"/><circle cx="12" cy="13" r="3" fill="#c4362c"/></svg>`, "Sealed"))}</div></div>
     <div class="howto">
       <div><b>Countdowns</b>Firewall lasts 3 turns each. Put 3 coins on the wall; take one off after each of the placer's turns.</div>
       <div><b>Playtest notes</b>After each game, jot on the back of the card: too strong? never played? confusing? That's the whole point of this deck.</div>
-      <div><b>Print</b>US Letter · margins: none · scale 100% · background graphics on. Sleeve each card in front of an old playing card.</div>
+      <div><b>Print</b>A4 · margins: none · scale 100% · background graphics on. Sleeve each card in front of an old playing card.</div>
     </div>
     <div class="sheet-label">GLITCH CHESS · FIELD KIT №1 · TOKENS</div>
   </section>`;
+
+  const allNames = [...E.map((c) => c.name), ...A.map((c) => c.name), ...CAND.map((c) => c.name + " ★")];
+  html += `<section class="sheet tokens log">
+    <h1>Playtest log</h1>
+    <p class="lede">One row per game. The goal isn't to win, it's to find what's broken, boring, or brilliant. Tally the cards as you go.</p>
+    <table class="lt"><thead><tr><th>#</th><th>Winner</th><th>~Moves</th><th>Best moment</th><th>Broken / confusing</th><th>House rule we made</th></tr></thead>
+    <tbody>${Array.from({ length: 7 }, (_, i) => `<tr><td>${i + 1}</td><td>Sig / Sta</td><td></td><td></td><td></td><td></td></tr>`).join("")}</tbody></table>
+    <h4 class="tallyh">Card tally: mark every play. ✓ = fun · ✗ = too strong · ? = confusing · Z = boring</h4>
+    <div class="tally">${allNames.map((n) => `<div><span>${n}</span><i></i></div>`).join("")}</div>
+    <div class="sheet-label">GLITCH CHESS · FIELD KIT №1 · PLAYTEST LOG</div></section>`;
 
   document.getElementById("root").innerHTML = html;
 })();
