@@ -18,3 +18,57 @@ window.GLITCH_CARDS = [
   { id: 15, name: "Blue Screen", type: "Event", text: "For the next 2 turns of each player, no captures may occur.", flavor: "The whole board held its breath." },
   { id: 16, name: "Gravity Storm", type: "Event", text: "Both players, starting with you: move one of your own pawns backward one square (if you can).", flavor: "The Lattice sneezed." },
 ];
+
+// Awakened characters (Structure v1: 8 per pack, drafted 2 each at setup). Draft v0 — playtest numbers,
+// not balanced. Attach to a matching piece; QUIRK always on; SIGNATURE once per game (turn card sideways).
+// The prototype doesn't load these yet — the print deck (print/playtest-deck-01.html) does.
+window.GLITCH_AWAKENED = [
+  { id: "A1", name: "Volt", piece: "knight", faction: "Glitchwrights",
+    quirk: "Volt may move like a knight or like a king.",
+    signatureName: "Triple Print", signature: "Move Volt three times this turn. Only the last move may capture.",
+    flavor: "At its destination slightly before it left.", art: "art/output/lush-volt-1784937159295.png" },
+  { id: "A2", name: "Solder", piece: "pawn", faction: "Glitchwrights",
+    quirk: "Solder may always move two squares forward, not just on its first move.",
+    signatureName: "Mostly Works", signature: "Fly Solder up to 4 squares forward, over anything in the way. It can't capture this way.",
+    flavor: "Landing scores: 9. 9. 5.", art: "art/output/zine-solder-1784949088732.png" },
+  { id: "A3", name: "The Night Clerk", piece: "rook", faction: "Marginalia",
+    quirk: "Whenever you draw, look at the top 2 cards. Keep 1, put the other on the bottom.",
+    signatureName: "Late Return", signature: "Take any card from the discard pile into your hand.",
+    flavor: "Tea first. Then metaphysics.", art: "art/output/master-nightclerk-1784937534678.png" },
+  { id: "A4", name: "Pip", piece: "pawn", faction: "Marginalia",
+    quirk: "Pip may step one square diagonally forward, even when not capturing.",
+    signatureName: "Remember the Crown", signature: "If your queen has been captured, swap Pip for it, right where she stands.",
+    flavor: "A pawn is a queen who has agreed, for now, to walk.", art: null },
+  { id: "A5", name: "The Colossus", piece: "knight", faction: "Errantry",
+    quirk: "Pawns can't capture the Colossus.",
+    signatureName: "The Errantry Answers", signature: "Put a marker on the Colossus. Until your next turn, it and every piece next to it can't be captured.",
+    flavor: "NOT WHITE. NOT BLACK. THE GAME.", art: "art/output/lush-colossus-1784937172830.png" },
+  { id: "A6", name: "Vesper", piece: "bishop", faction: "Errantry",
+    quirk: "Vesper may hop over one piece in her path. She can't capture the piece she hops.",
+    signatureName: "Walk Off", signature: "Lift Vesper off the board onto this card. On a later turn, put her on any empty square as your move.",
+    flavor: "Always just around the corner of the board.", art: null },
+  { id: "A7", name: "The Quiet Queen", piece: "queen", faction: "Hush",
+    quirk: "Enemy cards can't move, mark, or swap the Quiet Queen.",
+    signatureName: "Hush", signature: "Put a marker on one enemy character card. Its quirk and signature stop working for good.",
+    flavor: "She hums along.", art: "art/output/oai2-queen-1784938511225.png" },
+  { id: "A8", name: "Fermata", piece: "pawn", faction: "Hush",
+    quirk: "Only pawns can capture Fermata.",
+    signatureName: "The Held Note", signature: "Play on your opponent's turn, when one of your pieces would be captured: it isn't. They must make a different move.",
+    flavor: "A pause so deep the rules forgot how to resume.", art: "art/output/lush-fermata-1784937199476.png" },
+];
+
+// Piece-suite cards (Structure v1: 6 per pack) — the base chess move, so a first-timer learns each piece from its own card.
+window.GLITCH_PIECES = [
+  { id: "K", piece: "king",   name: "King",   tagline: "Sovereign of Unfinished Games", worth: "∞",
+    text: "One square in any direction. Never into danger. Castling: once per game, slide 2 toward an unmoved rook; the rook hops over." },
+  { id: "Q", piece: "queen",  name: "Queen",  tagline: "The Remembering Queen", worth: 9,
+    text: "Any distance in a straight line or a diagonal. Can't jump over pieces." },
+  { id: "R", piece: "rook",   name: "Rook",   tagline: "The Living Archive", worth: 5,
+    text: "Any distance up, down, left, or right. Can't jump over pieces." },
+  { id: "B", piece: "bishop", name: "Bishop", tagline: "Keeper of Diagonal Truths", worth: 3,
+    text: "Any distance diagonally. A bishop stays on its starting color all game." },
+  { id: "N", piece: "knight", name: "Knight", tagline: "Walker of Impossible Paths", worth: 3,
+    text: "Jumps in an L: two squares one way, then one to the side. The only piece that leaps over others." },
+  { id: "P", piece: "pawn",   name: "Pawn",   tagline: "Small isn't nothing. Small is how it begins.", worth: 1,
+    text: "Forward 1 (or 2 on its first move). Captures 1 square diagonally forward. Reach the far side: become any piece." },
+];

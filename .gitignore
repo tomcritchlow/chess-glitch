@@ -3,3 +3,6 @@
 node_modules/
 .DS_Store
 .claude/
+
+# Rendered print PDFs (regenerate from print/*.html; design review PDF exceeds GitHub size limit)
+print/*.pdf

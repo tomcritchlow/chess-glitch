@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Design Review №1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<!-- Print: US Letter, portrait, margins "None", scale 100%, background graphics ON. Images resolve from ../art/. -->
+<script src="glyphs.js"></script>
+<style>
+  :root { --ink: #17161c; --mute: #6c6a73; --line: #dcd8d0; --paper: #fffdf8; --signal: #0aa6c9; --static: #d02d7f;
+    --Glitchwrights: #e2307c; --Marginalia: #213f6e; --Errantry: #6b4cb2; --Hush: #2b2a31; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @page { size: letter; margin: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #8b8892; color: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif; }
+  .page { width: 8.5in; height: 11in; margin: 0 auto 24px; background: #fff; padding: .42in .45in .4in; display: flex; flex-direction: column; gap: .16in; position: relative; overflow: hidden; break-after: page; page-break-after: always; }
+  .page:last-child { break-after: auto; page-break-after: auto; }
+  @media print { body { background: none; } .page { margin: 0; } }
+  .ph { display: flex; justify-content: space-between; font: 500 7pt "IBM Plex Mono", monospace; letter-spacing: .14em; color: #8e8a94; text-transform: uppercase; border-bottom: .8pt solid var(--line); padding-bottom: 4pt; }
+  h1 { font: 800 40pt/.95 "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+  h2 { font: 800 26pt/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.015em; }
+  .kicker { font: 600 7.5pt "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); }
+  .lede { font: 500 11pt/1.38 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; max-width: 6.4in; }
+  .serif { font-family: "Newsreader", serif; font-style: italic; }
+  img { display: block; }
+  .ph-img { width: 100%; height: 100%; object-fit: cover; border-radius: 4pt; }
+  .cap { font: 500 6.2pt "IBM Plex Mono", monospace; letter-spacing: .08em; color: #8e8a94; text-transform: uppercase; margin-top: 3pt; }
+
+  /* vote bar */
+  .vote { margin-top: auto; border-top: 1.2pt solid var(--ink); padding-top: 8pt; display: grid; grid-template-columns: 1fr 1fr; gap: 10pt 24pt; }
+  .vote .row { display: flex; align-items: center; gap: 12pt; white-space: nowrap; font: 600 8pt "IBM Plex Mono", monospace; letter-spacing: .08em; }
+  .vote .who { background: var(--ink); color: #fff; padding: 2pt 6pt; border-radius: 2pt; min-width: 38pt; text-align: center; }
+  .vote .vo::before { content: ""; display: inline-block; width: 11pt; height: 11pt; border: 1.3pt solid var(--ink); border-radius: 50%; margin-right: 3pt; vertical-align: -3pt; }
+  .vote .notes { grid-column: 1 / -1; font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--mute); text-transform: uppercase; height: .62in; background: repeating-linear-gradient(transparent 0 .2in, var(--line) .2in calc(.2in + .7pt)); background-position: 0 .08in; }
+
+  /* cover */
+  .cover { padding: 0; gap: 0; }
+  .cover .hero { height: 6.6in; position: relative; overflow: hidden; }
+  .cover .hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+  .cover .hero::after { content: ""; position: absolute; inset: auto 0 0; height: 1.4in; background: linear-gradient(transparent, #fff); }
+  .cover .inner { padding: 0 .55in .45in; display: flex; flex-direction: column; gap: .14in; flex: 1; margin-top: -.55in; position: relative; z-index: 1; }
+  .wm-signal { font: 800 64pt/.88 "Bricolage Grotesque", sans-serif; letter-spacing: -.03em; color: var(--ink); text-shadow: -3px 0 0 var(--signal), 3px 0 0 var(--static); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14pt; margin-top: 6pt; }
+  .steps div { border-top: 2pt solid var(--ink); padding-top: 5pt; font: 500 9.5pt/1.3 "IBM Plex Sans Condensed", sans-serif; }
+  .steps b { display: block; font: 800 20pt/1 "Bricolage Grotesque", sans-serif; margin-bottom: 3pt; }
+  .agenda { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4pt 14pt; font: 500 7.5pt "IBM Plex Mono", monospace; letter-spacing: .06em; color: var(--mute); border-top: .8pt solid var(--line); padding-top: 7pt; }
+  .agenda b { color: var(--ink); }
+
+  /* world */
+  .orders { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10pt; }
+  .order .img { height: 2.25in; }
+  .order h3 { font: 800 13pt/1.05 "Bricolage Grotesque", sans-serif; margin-top: 6pt; display: flex; gap: 5pt; align-items: center; }
+  .order .tagline { font: italic 500 9.5pt/1.25 "Newsreader", serif; margin: 2pt 0 4pt; }
+  .order p { font: 500 8.3pt/1.3 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; border-radius: 5pt; overflow: hidden; }
+  .sides div { padding: 10pt 14pt; color: #fff; font: 500 9pt/1.3 "IBM Plex Sans Condensed", sans-serif; }
+  .sides b { display: block; font: 800 17pt "Bricolage Grotesque", sans-serif; }
+  .bigline { font: italic 500 22pt/1.15 "Newsreader", serif; letter-spacing: -.01em; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 18pt; }
+  .twocol p { font: 500 9.5pt/1.38 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; }
+  .twocol h4, .box h4 { font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); margin-bottom: 3pt; }
+
+  /* volt lineup */
+  .lineup { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10pt 9pt; }
+  .lineup .cell { position: relative; }
+  .lineup .img { height: 2.95in; }
+  .lineup .letter { position: absolute; top: 5pt; left: 5pt; width: 22pt; height: 22pt; border-radius: 50%; background: #fff; display: grid; place-items: center; font: 800 12pt "Bricolage Grotesque", sans-serif; box-shadow: 0 0 0 1.2pt var(--ink); }
+
+  /* direction pages */
+  .dirhead { display: flex; align-items: flex-end; gap: 14pt; }
+  .dirhead .L { font: 800 70pt/.8 "Bricolage Grotesque", sans-serif; color: var(--accent); }
+  .dirhead .feels { margin-left: auto; max-width: 3.1in; font: italic 500 12.5pt/1.25 "Newsreader", serif; text-align: right; color: #3a3840; }
+  .dirgrid { display: grid; grid-template-columns: 3.75in 1fr 1fr; grid-template-rows: 3.12in 3.12in; gap: 9pt; }
+  .dirgrid .hero { grid-row: 1 / 3; }
+  .dirgrid figure { display: flex; flex-direction: column; min-height: 0; }
+  .dirgrid figure .img { flex: 1; min-height: 0; }
+  .img.contain img { object-fit: contain; background: #f2f0eb; }
+  .box { border: 1pt solid var(--line); border-radius: 4pt; padding: 8pt 9pt; display: flex; flex-direction: column; gap: 7pt; background: #fbfaf7; }
+  .box ul { list-style: none; display: grid; gap: 3pt; }
+  .box li { font: 500 8.4pt/1.28 "IBM Plex Sans Condensed", sans-serif; padding-left: 10pt; position: relative; }
+  .box li::before { content: "+"; position: absolute; left: 0; font-weight: 700; color: var(--accent); }
+  .box .watch li::before { content: "!"; color: #c4542c; }
+  .fits { display: flex; align-items: center; gap: 8pt; font: 500 9pt "IBM Plex Sans Condensed", sans-serif; }
+  .fits .chip { font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; background: var(--accent); color: #fff; padding: 3pt 7pt; border-radius: 2pt; }
+
+  /* big question */
+  .opt3 { display: grid; gap: 12pt; }
+  .opt { display: grid; grid-template-columns: .5in 1fr; gap: 14pt; align-items: center; border-top: 1pt solid var(--line); padding-top: 10pt; }
+  .opt .num { font: 800 34pt/1 "Bricolage Grotesque", sans-serif; }
+  .opt h3 { font: 800 15pt/1.1 "Bricolage Grotesque", sans-serif; }
+  .opt p { font: 500 9pt/1.32 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; margin-top: 2pt; }
+  .thumbs { display: flex; gap: 5pt; }
+  .thumbs div { width: 1.12in; height: 1.6in; border-radius: 3pt; overflow: hidden; border: 2.5pt solid var(--b, #ccc); flex: none; }
+  .thumbs img { width: 100%; height: 100%; object-fit: cover; }
+  .optrow { display: flex; gap: 14pt; align-items: center; }
+  .hunch { display: inline-block; font: 600 6.5pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; background: #fff3c4; padding: 1.5pt 5pt; border-radius: 2pt; margin-left: 6pt; vertical-align: 3pt; }
+
+  /* characters */
+  .chars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12pt 9pt; }
+  .ch .img { height: 2.3in; position: relative; }
+  .ch .img .flag { position: absolute; bottom: 4pt; left: 4pt; right: 4pt; background: #fff3c4; font: 600 6pt "IBM Plex Mono", monospace; letter-spacing: .06em; padding: 2pt 4pt; border-radius: 2pt; text-transform: uppercase; }
+  .ch h3 { font: 800 12pt/1.05 "Bricolage Grotesque", sans-serif; margin-top: 5pt; }
+  .ch .meta { font: 600 6.3pt "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--c); margin: 1pt 0 2pt; display: flex; align-items: center; gap: 3pt; }
+  .ch p { font: italic 500 8.4pt/1.22 "Newsreader", serif; color: #3a3840; }
+  .ch .ticks { display: flex; gap: 8pt; margin-top: 4pt; font: 600 6.3pt "IBM Plex Mono", monospace; letter-spacing: .06em; }
+  .ch .ticks span::before { content: ""; display: inline-block; width: 8pt; height: 8pt; border: 1pt solid var(--ink); margin-right: 2pt; vertical-align: -2pt; }
+
+  /* wordmarks */
+  .wms { display: grid; grid-template-columns: 1fr 1fr; gap: 10pt; flex: 1; }
+  .wm { border: 1pt solid var(--line); border-radius: 5pt; display: flex; flex-direction: column; overflow: hidden; }
+  .wm .stage { flex: 1; display: grid; place-items: center; padding: 10pt; text-align: center; }
+  .wm .lbl { display: flex; justify-content: space-between; align-items: center; border-top: 1pt solid var(--line); padding: 5pt 8pt; font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+  .wm .lbl span:last-child::before { content: ""; display: inline-block; width: 9pt; height: 9pt; border: 1.2pt solid var(--ink); border-radius: 50%; margin-right: 3pt; vertical-align: -2pt; }
+  .slice { font: 800 46pt/.95 "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; text-align: left; }
+  .slice .cut { position: relative; }
+  .slice .top { display: block; clip-path: inset(0 0 52% 0); }
+  .slice .bot { position: absolute; inset: 0; clip-path: inset(52% 0 0 0); transform: translateX(10pt); color: var(--static); }
+  .slice .cut::after { content: ""; position: absolute; left: -4pt; right: -14pt; top: 52%; height: 1.5pt; background: var(--signal); }
+
+  /* draw page */
+  .drawgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 20pt; flex: 1; }
+  .drawcard { border: 1.4pt dashed #9b97a3; border-radius: 10pt; display: flex; flex-direction: column; padding: 10pt; gap: 8pt; }
+  .drawcard .t { font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); border-bottom: 1pt solid var(--line); padding-bottom: 14pt; }
+  .drawcard .art { flex: 1.5; border: 1pt solid var(--line); border-radius: 4pt; display: grid; place-items: center; color: #d0ccd5; font: 600 7pt "IBM Plex Mono", monospace; letter-spacing: .14em; }
+  .drawcard .ln { flex: 1; background: repeating-linear-gradient(transparent 0 .26in, var(--line) .26in calc(.26in + .7pt)); }
+  .prompts { font: 500 9pt/1.4 "IBM Plex Sans Condensed", sans-serif; color: #3a3840; }
+  .prompts b { font-weight: 700; color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  const { sigil, pieceSVG } = window.GG;
+  const O = "../art/output/", R = "../art/reference/";
+  const TOTAL = 13;
+  let n = 1;
+  const ph = (label) => `<header class="ph"><span>Glitch Chess — Design Review №1 · ${label}</span><span>${String(++n).padStart(2, "0")} / ${TOTAL}</span></header>`;
+  const im = (src, pos = "center", contain = false) => `<div class="img${contain ? " contain" : ""}"><img class="ph-img" src="${src}" style="object-position:${pos}"></div>`;
+  const vote = (q = "Notes — what would make it cooler?") => `<div class="vote">
+      <div class="row"><span class="who">TOM</span><span class="vo">YES</span><span class="vo">MAYBE</span><span class="vo">NOPE</span></div>
+      <div class="row"><span class="who">INDY</span><span class="vo">YES</span><span class="vo">MAYBE</span><span class="vo">NOPE</span></div>
+      <div class="notes">${q}</div></div>`;
+  const pages = [];
+
+  // 01 — cover
+  pages.push(`<section class="page cover">
+    <div class="hero"><img src="${O}oai2-volt-1784938122202.png"></div>
+    <div class="inner">
+      <div class="kicker">Design Review №1 · for Tom &amp; Indy</div>
+      <div class="wm-signal">GLITCH CHESS</div>
+      <p class="bigline" style="font-size:17pt">What does the world look like?</p>
+      <div class="steps">
+        <div><b>1</b>Look at each page together. No reading ahead.</div>
+        <div><b>2</b>Each of us circles <b style="display:inline;font:inherit;font-weight:700">YES</b>, <b style="display:inline;font:inherit;font-weight:700">MAYBE</b> or <b style="display:inline;font:inherit;font-weight:700">NOPE</b>, and doesn't peek at the other's.</div>
+        <div><b>3</b>Draw on everything. Circle the best bits. Cross out the worst.</div>
+      </div>
+      <div class="agenda"><b>Inside:</b><span>The world</span><span>Which Volt?</span><span>Six looks: A–F</span><span>One look or four?</span><span>The Awakened</span><span>The name</span><span>Your turn</span></div>
+    </div></section>`);
+
+  // 02 — the world
+  const ORD = [
+    ["Marginalia", "The Marginalia", "We read the glitch. We keep everything.", "Librarians of a crumbling reality. A bookshop hidden in the gap between two cobblestones.", O + "master-nightclerk-1784937534678.png", "center 40%"],
+    ["Glitchwrights", "The Glitchwrights", "We RIDE the glitch. Say it like it's fun.", "Tinkerers and speedrunners in a workshop under a bridge. Goggles, sparks, daemons in jars.", O + "zine-foundry-1784949380481.png", "center"],
+    ["Errantry", "The Errantry", "The pieces are waking up. Let them.", "Chess pieces played so often they woke up. They serve no player, only the game.", O + "lush-colossus-1784937172830.png", "center 60%"],
+    ["Hush", "The Hush", "(This section intentionally left blank.)", "The only ones who walk toward the Nullity, where the world runs out, and sit with it.", O + "lush-fermata-1784937199476.png", "center"],
+  ];
+  pages.push(`<section class="page">${ph("The world")}
+    <div class="kicker">The world in one page</div>
+    <p class="bigline">Chess is the oldest program still running. Now it's glitching, and every finished game patches the world a little.</p>
+    <div class="sides"><div style="background:var(--signal)"><b>Signal</b>The world as it was written. Plays white.</div><div style="background:var(--static)"><b>Static</b>The world as it's drifting. Plays black.</div></div>
+    <div class="kicker" style="margin-top:4pt">The four orders: pick the one you'd join</div>
+    <div class="orders">${ORD.map(([k, name, tag, body, src, pos]) => `<div class="order">${im(src, pos)}<h3 style="color:var(--${k})">${sigil(k, 15)} ${name}</h3><p class="tagline">${tag}</p><p>${body}</p></div>`).join("")}</div>
+    <div class="twocol">
+      <div><h4>The cards</h4><p>Every card is a <b>pressed glitch</b>: a moment the world broke, written down and flattened. Play it at a board and the glitch happens again.</p></div>
+      <div><h4>The enemy</h4><p><b>The Nullity</b>: blank silence where the world has stopped. No monsters, no gore. The scariest thing in the world is silence.</p></div>
+    </div>
+    ${vote("Which order would you join? Why?")}</section>`);
+
+  // 03 — Volt lineup
+  const VOLTS = [
+    ["lush-volt-1784937159295.png", "Painted glow"], ["oai2-volt-1784938122202.png", "Chrome storm"], ["g3p-volt-1784937921423.png", "Cloud rider"], ["g31f-volt-1784937879587.jpeg", "Neon robot"],
+    ["zine-volt-1784948949898.png", "Riso zine"], ["collage-volt-1784947898665.png", "Archive page"], ["weird-volt-1784940021181.png", "Score cards"], ["char-volt-1784932894247.png", "Cartoon sketch"],
+  ];
+  pages.push(`<section class="page">${ph("Which Volt?")}
+    <div><div class="kicker">Warm-up</div><h2>Which Volt is the real Volt?</h2></div>
+    <p class="lede">Volt is a Glitchwright knight that arrives slightly before it leaves. Same character, eight ways. <b>Circle the real Volt. Cross out the fakes.</b> Then: what makes your pick look cool?</p>
+    <div class="lineup">${VOLTS.map(([f, cap], i) => `<div class="cell">${im(O + f, "center 30%")}<span class="letter">${"ABCDEFGH"[i]}</span><div class="cap">${cap}</div></div>`).join("")}</div>
+    <div class="vote" style="grid-template-columns:1fr 1fr">
+      <div class="row"><span class="who">TOM</span>Real Volt: ____ &nbsp; Fake: ____</div>
+      <div class="row"><span class="who">INDY</span>Real Volt: ____ &nbsp; Fake: ____</div>
+      <div class="notes">What makes it cool? (the eyes? the goggles? the lightning? the colors?)</div></div></section>`);
+
+  // 04–09 — six directions
+  const DIRS = [
+    { L: "A", name: "Glow", sub: "Painted light", accent: "#5a3fd6", feels: "“The shiny card everyone at school wants to pull.”",
+      hero: [O + "lush-colossus-1784937172830.png", "center 60%", "The Colossus"],
+      sup: [[O + "oai2-volt-1784938122202.png", "center 30%", "Volt"], [O + "master-nightclerk-1784937534678.png", "center 45%", "The Night Clerk"], [O + "oai2-queen-1784938511225.png", "center 40%", "The Quiet Queen"]],
+      good: ["Characters with real presence: they look alive", "Holographic foil would look amazing", "Closest to Pokémon-card wow; great on the Kickstarter page"],
+      watch: ["Lots of fantasy card games glow, so it has to be OUR glow (checkerboard skies, cracked-stone light)", "Costs the most to print well"], fits: "The Awakened (characters), any order" },
+    { L: "B", name: "Zine", sub: "Workshop patch-notes", accent: "#e2307c", feels: "“A skate-shop sticker sheet somebody photocopied at 2am.”",
+      hero: [O + "zine-solder-1784949088732.png", "center", "Solder"],
+      sup: [[O + "zine-volt-1784948949898.png", "center", "Volt"], [O + "zine-overclock-1784949237646.png", "center", "Overclock (a glitch card)"], [R + "register-glitchwrights-punk-black-catalog.png", "left top", "The 'Black Catalog' punk sheet"]],
+      good: ["Energy and jokes: grades, tape, 'MORE TAPE HERE'", "Glitch cards work as pure pictures (a chess clock can be the whole card)", "Looks hand-made, not computer-made"],
+      watch: ["LOUD. Gets messy fast at card size", "Needs a strict layout to stay cool and not just chaos"], fits: "The Glitchwrights" },
+    { L: "C", name: "Archive", sub: "Secret library files", accent: "#213f6e", feels: "“Evidence from a mystery nobody has solved yet.”",
+      hero: [O + "collage-fermata-1784948340176.png", "center", "Fermata"],
+      sup: [[O + "collage-nightclerk-1784948199564.png", "center", "The Night Clerk"], [R + "register-marginalia-suite-v2.png", "left top", "A Marginalia card suite"], [R + "graphic-novel-p01-the-unfinished-game.png", "center top", "Graphic novel, page 1"]],
+      good: ["Story and lore: every card feels like a clue", "Same look can carry the graphic novels", "Grown-ups lean in"],
+      watch: ["Brown. A LOT of brown", "Could look like an old-timey school history project"], fits: "The Marginalia, plus the graphic novel" },
+    { L: "D", name: "Blueprint", sub: "Classified plans", accent: "#1b6d8c", feels: "“The instruction manual for the machine that runs the world.”",
+      hero: [R + "register-continuity-council.png", "center top", "Continuity Council spec sheets"],
+      sup: [[O + "d5-knight-1784932097751.png", "center", "Knight, cyanotype"], [R + "register-builders-machine-schematics.png", "left top", "Recovered machines"], [R + "chatgpt-piece-suite-04-schematic-manuscript.png", "left top", "Schematic manuscript"]],
+      good: ["Teaching: the clearest way to show how a piece moves", "Looks smart and expensive", "Cheapest to print"],
+      watch: ["Can feel cold, like homework", "Only works if the machines inside are awesome"], fits: "Rules cards + the six piece cards (the 'official' layer every glitch messes up)" },
+    { L: "E", name: "Silence", sub: "The shape left behind", accent: "#2b2a31", feels: "“A ghost left a shape pressed into the paper.”",
+      hero: [R + "register-null-choir-empty-forms.png", "center top", "The Null Choir"],
+      sup: [[O + "weird-fermata-1784940244617.png", "center", "Fermata on the blank stair"], [R + "register-static-crt-ghosts.png", "left top", "Static ghosts"], [O + "master-quietqueen-1784937541495.png", "center 40%", "The Quiet Queen"]],
+      good: ["Mystery: the weird quiet faction you pick to be different", "Embossing and foil look incredible on near-blank cards", "Nobody else's cards look like this"],
+      watch: ["Almost nothing on the card, so it has to be perfect or it looks unfinished"], fits: "The Hush" },
+    { L: "F", name: "Lantern", sub: "A fairy tale with circuits", accent: "#b06a1e", feels: "“A storybook from a castle that is secretly a computer.”",
+      hero: [R + "register-living-rooks-architecture.png", "left top", "The Living Rooks"],
+      sup: [[R + "register-the-promoted-stained-glass.png", "left top", "Stained glass"], [R + "chatgpt-piece-suite-03-storybook-pixel-watercolor.png", "left top", "Storybook + pixels"], [O + "d3-knight-1784932078396.png", "center", "Clean-line knight"]],
+      good: ["Places and wonder: you want to go there", "Warm, and stained-glass foil is a great special edition", "Good for the world map and rulebook"],
+      watch: ["Can tip into generic wizards-and-castles and lose the sci-fi"], fits: "The Errantry (still undecided!)" },
+  ];
+  DIRS.forEach((d) => {
+    const fig = ([src, pos, cap], cls = "") => `<figure class="${cls}">${im(src, pos, false)}<figcaption class="cap">${cap}</figcaption></figure>`;
+    pages.push(`<section class="page" style="--accent:${d.accent}">${ph("Look " + d.L)}
+      <div class="dirhead"><span class="L">${d.L}</span><div><div class="kicker">${d.sub}</div><h1>${d.name}</h1></div><p class="feels">${d.feels}</p></div>
+      <div class="dirgrid">
+        ${fig(d.hero, "hero")}
+        ${fig(d.sup[0])}${fig(d.sup[1])}${fig(d.sup[2])}
+        <div class="box"><div><h4>Good at</h4><ul>${d.good.map((x) => `<li>${x}</li>`).join("")}</ul></div><div class="watch"><h4>Watch out</h4><ul>${d.watch.map((x) => `<li>${x}</li>`).join("")}</ul></div></div>
+      </div>
+      <div class="fits"><span class="chip">Best fit</span>${d.fits}</div>
+      ${vote()}</section>`);
+  });
+
+  // 10 — the big question
+  const th = (arr) => `<div class="thumbs">${arr.map(([src, col, pos = "center"]) => `<div style="--b:${col}"><img src="${src}" style="object-position:${pos}"></div>`).join("")}</div>`;
+  pages.push(`<section class="page">${ph("The big question")}
+    <div><div class="kicker">Now you've seen A–F</div><h2>One look, or many?</h2></div>
+    <p class="lede">Pokémon cards all share <b>one look</b>: you can tell a Pokémon card from across the room. Our plan so far is the opposite: each order prints its own cards in its own style, like they're real objects from inside the world. Which would you rather open a pack of?</p>
+    <div class="opt3">
+      <div class="opt"><div class="num">1</div><div><div class="optrow">${th([[O + "lush-volt-1784937159295.png", "var(--Glitchwrights)"], [O + "master-nightclerk-1784937534678.png", "var(--Marginalia)"], [O + "lush-colossus-1784937172830.png", "var(--Errantry)", "center 60%"], [O + "lush-fermata-1784937199476.png", "var(--Hush)"]])}</div>
+        <h3 style="margin-top:6pt">One look for everything</h3><p>Every card in the same style. Orders are told apart by color and symbol. Easiest to recognize, easiest to make look "pro."</p></div></div>
+      <div class="opt"><div class="num">2</div><div><div class="optrow">${th([[O + "zine-volt-1784948949898.png", "var(--Glitchwrights)"], [O + "collage-nightclerk-1784948199564.png", "var(--Marginalia)"], [R + "register-living-rooks-architecture.png", "var(--Errantry)", "left top"], [R + "register-null-choir-empty-forms.png", "var(--Hush)", "left top"]])}</div>
+        <h3 style="margin-top:6pt">Every order, its own look</h3><p>The Glitchwrights make zines, the Marginalia make archive files, and so on. The most original option, and a reason to collect all four. Risk: four packs that don't look like one game.</p></div></div>
+      <div class="opt"><div class="num">3</div><div><div class="optrow">${th([[O + "lush-volt-1784937159295.png", "var(--Glitchwrights)"], [O + "zine-overclock-1784949237646.png", "var(--Glitchwrights)"], [O + "master-nightclerk-1784937534678.png", "var(--Marginalia)"], [O + "collage-fermata-1784948340176.png", "var(--Hush)"]])}</div>
+        <h3 style="margin-top:6pt">Mix: shiny characters, homemade glitches <span class="hunch">Claude's hunch</span></h3><p>The characters (the ones you collect and love) share one shiny style. The glitch cards are printed in each order's own style. One frame holds it all together.</p></div></div>
+    </div>
+    <div class="vote" style="grid-template-columns:1fr 1fr">
+      <div class="row"><span class="who">TOM</span><span class="vo">1</span><span class="vo">2</span><span class="vo">3</span></div>
+      <div class="row"><span class="who">INDY</span><span class="vo">1</span><span class="vo">2</span><span class="vo">3</span></div>
+      <div class="notes">Why?</div></div></section>`);
+
+  // 11 — the Awakened
+  const CH = [
+    ["Volt", "knight", "Glitchwrights", "Arrives slightly before it leaves.", O + "lush-volt-1784937159295.png", "center 30%"],
+    ["Solder", "pawn", "Glitchwrights", "A pawn with a jetpack that mostly works.", O + "lush-solder-1784937152880.png", "center 40%"],
+    ["The Night Clerk", "rook", "Marginalia", "Runs the bookshop. Tea before metaphysics.", O + "g3p-nightclerk-1784937967207.png", "center 50%"],
+    ["Pip", "pawn", "Marginalia", "The pawn who remembers being a queen.", O + "char-pip-1784932881487.png", "center 40%", "Old sketch: too human? Redraw her as a pawn"],
+    ["The Colossus", "knight", "Errantry", "Forty feet of kneeling stone, between quests.", O + "g31f-colossus-1784937886382.jpeg", "center 40%"],
+    ["Vesper", "bishop", "Errantry", "Walks off the board and back on somewhere else.", O + "char-vesper-1784932914231.png", "center 30%", "Old sketch: needs a bishop body"],
+    ["The Quiet Queen", "queen", "Hush", "She hums along with the silence.", O + "lush-quietqueen-1784937179494.png", "center 30%"],
+    ["Fermata", "pawn", "Hush", "The pawn the Nullity refuses to take.", O + "weird-fermata-1784940244617.png", "center 55%"],
+  ];
+  pages.push(`<section class="page">${ph("The Awakened")}
+    <div><div class="kicker">The Pokémon part</div><h2>Meet the Awakened</h2></div>
+    <p class="lede">Chess pieces that woke up. These are the eight in the playtest deck. Rule so far: <b>the piece IS the character</b>, keeping the chess-piece shape, never turning into a person. Tick your favorite and the one that needs the most work.</p>
+    <div class="chars">${CH.map(([name, pc, fac, line, src, pos, flag]) => `<div class="ch" style="--c:var(--${fac})"><div class="img">${im(src, pos).replace('class="img"', 'style="height:100%"')}${flag ? `<span class="flag">${flag}</span>` : ""}</div><h3>${name}</h3><div class="meta">${pieceSVG(pc, 9, "currentColor")} ${pc} · ${fac}</div><p>${line}</p><div class="ticks"><span>FAVE</span><span>FIX ME</span></div></div>`).join("")}</div>
+    ${vote("Who's missing? What piece should we wake up next?")}</section>`);
+
+  // 12 — wordmark
+  pages.push(`<section class="page">${ph("The name")}
+    <div><div class="kicker">The logo</div><h2>How should the name look?</h2></div>
+    <p class="lede">Just type for now, no logo art yet. Which one looks like the box you'd grab off the shelf?</p>
+    <div class="wms">
+      <div class="wm"><div class="stage"><div class="wm-signal" style="font-size:44pt">GLITCH<br>CHESS</div></div><div class="lbl"><span>1 · Signal / Static</span><span>Pick</span></div></div>
+      <div class="wm"><div class="stage"><div class="slice"><div>GLITCH</div><div class="cut"><span class="top">CHESS</span><span class="bot">CHESS</span></div></div></div><div class="lbl"><span>2 · Sliced</span><span>Pick</span></div></div>
+      <div class="wm"><div class="stage"><div><div style="font:italic 500 46pt/1 Newsreader,serif;letter-spacing:-.02em">Glitch Chess<span style="color:#c4542c;font-style:normal">✱</span></div><div class="kicker" style="margin-top:6pt">A game of unfinished things</div></div></div><div class="lbl"><span>3 · Library</span><span>Pick</span></div></div>
+      <div class="wm"><div class="stage" style="background:var(--ink);color:#fff"><div style="font:600 20pt/1 'IBM Plex Mono',monospace;letter-spacing:.02em;border:1.5pt solid #fff;padding:10pt 12pt">GLITCH_CHESS<span style="color:var(--signal)">.exe</span><div style="font-size:6pt;letter-spacing:.16em;margin-top:6pt;opacity:.7">PROTOCOL v7.3 · ERR 404: RULES NOT FOUND</div></div></div><div class="lbl"><span>4 · Protocol</span><span>Pick</span></div></div>
+      <div class="wm"><div class="stage"><div style="display:flex;align-items:center;gap:12pt">${pieceSVG("knight", 78, "var(--ink)")}<div style="text-align:left;font:900 50pt/.82 'Big Shoulders Display',sans-serif;text-transform:uppercase">Glitch<br><span style="color:var(--static)">Chess</span></div></div></div><div class="lbl"><span>5 · Monument</span><span>Pick</span></div></div>
+      <div class="wm" style="border-style:dashed"><div class="stage" style="color:#c2bec9;font:600 7pt 'IBM Plex Mono',monospace;letter-spacing:.14em">DRAW YOUR OWN</div><div class="lbl"><span>6 · ____________</span><span>Pick</span></div></div>
+    </div>
+    <div class="vote" style="grid-template-columns:1fr 1fr">
+      <div class="row"><span class="who">TOM</span>Favorite: ____</div>
+      <div class="row"><span class="who">INDY</span>Favorite: ____</div></div></section>`);
+
+  // 13 — your turn
+  pages.push(`<section class="page">${ph("Your turn")}
+    <div><div class="kicker">Homework (the fun kind)</div><h2>Your turn</h2></div>
+    <p class="prompts"><b>Left:</b> wake up a new chess piece. What piece is it? What's its name? What does it do that's a little bit against the rules? &nbsp; <b>Right:</b> invent a glitch: a moment where chess broke. What happened? What does the card let you do?</p>
+    <div class="drawgrid">
+      <div class="drawcard"><div class="t">New Awakened · Name</div><div class="art">DRAW IT</div><div class="t" style="border:0;padding:0">Piece: ${["king","queen","rook","bishop","knight","pawn"].map(k=>pieceSVG(k,15,"#6c6a73")).join(" ")} &nbsp;·&nbsp; Order: ${["Marginalia","Glitchwrights","Errantry","Hush"].map(k=>sigil(k,13,"#6c6a73")).join(" ")}</div><div class="ln"></div></div>
+      <div class="drawcard"><div class="t">New Glitch · Name</div><div class="art">DRAW IT</div><div class="t" style="border:0;padding:0">Exploit · Patch · Daemon · Event</div><div class="ln"></div></div>
+    </div></section>`);
+
+  document.getElementById("root").innerHTML = pages.join("");
+})();
+</script>
+</body>
+</html>

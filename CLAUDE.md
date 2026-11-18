@@ -20,6 +20,7 @@ Solo-dev project. Remote: https://github.com/tomcritchlow/chess-glitch. **Defaul
 
 - **Run the prototype:** open `prototype/index.html` directly in a browser. No build step, no server, no dependencies — plain HTML/CSS/JS loaded from `file://`. Keep it that way.
 - **Generate card art:** `node art/generate.mjs "<subject prompt>" --out <slug>` (needs `OPENROUTER_API_KEY` in `.env.local`, Node 18+). Flags: `-n 3` for variations, `--raw` to skip house style, `--model <id>` to switch models. Output goes to `art/output/` (gitignored).
+- **Print sheets:** `print/playtest-deck-01.html` (32-card Field Kit + blanks + tokens, 9-up poker cards on US Letter) and `print/design-review-01.html` (13-page aesthetic review for Tom & Indy). Open in Chrome → Print → margins None, background graphics on. Or render a PDF: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --allow-file-access-from-files --virtual-time-budget=10000 --print-to-pdf=print/X.pdf "file://$PWD/print/X.html"` (PDFs are gitignored). Card data comes from `prototype/cards.js`.
 - No tests, no linter — it's a design prototype.
 
 ## Architecture & conventions

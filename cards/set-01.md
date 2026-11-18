@@ -28,3 +28,22 @@ First playtest set. Every card here also lives in `prototype/cards.js` (keep the
 - Nothing touches the king as a target except by normal chess. Firewall/Teleport can still create shelter — watch whether that makes mates too hard to find.
 - Suspected problem children to watch in playtest: Fork Bomb (pawn spam near promotion), Rollback (feel-bad factor), Restore Backup (queen resurrection may be a 2x power outlier).
 - Physical-component check: Daemons and Firewall need markers. Budget says: card corners can be torn? No — use anything (coins). Rules card should say "use any two small objects as markers."
+
+## Awakened — draft v0 (Nov 2026, for the first home playtest)
+
+Eight characters, two per order, so one Field Kit samples every faction's feel. Data lives in `prototype/cards.js` (`window.GLITCH_AWAKENED`); the print deck renders them. Setup: draft 2 each (Static picks first). Quirk always on; signature once per game (turn sideways); character dies with its piece. No kings — cards never touch the king.
+
+| # | Name | Piece | Order | Quirk | Signature (once) |
+|---|------|-------|-------|-------|------------------|
+| A1 | Volt | knight | Glitchwrights | Moves like a knight or a king. | **Triple Print** — move Volt three times; only the last may capture. |
+| A2 | Solder | pawn | Glitchwrights | May always move two forward. | **Mostly Works** — fly up to 4 forward over anything; no capture. |
+| A3 | The Night Clerk | rook | Marginalia | When you draw, look at top 2, keep 1, bottom the other. | **Late Return** — take any card from the discard. |
+| A4 | Pip | pawn | Marginalia | May step diagonally forward without capturing. | **Remember the Crown** — if your queen is captured, swap Pip for it. |
+| A5 | The Colossus | knight | Errantry | Pawns can't capture it. | **The Errantry Answers** — marker: until your next turn, it and adjacent pieces can't be captured. |
+| A6 | Vesper | bishop | Errantry | May hop one piece (can't capture the hopped piece). | **Walk Off** — lift onto the card; later, place on any empty square as your move. |
+| A7 | The Quiet Queen | queen | Hush | Enemy cards can't move, mark, or swap her. | **Hush** — marker on an enemy character: quirk + signature off for good. |
+| A8 | Fermata | pawn | Hush | Only pawns can capture her. | **The Held Note** — on their turn, stop a capture of any of your pieces; they move differently. |
+
+Watch-list: Triple Print (three knight hops is a lot of reach), Remember the Crown (strong catch-up — intended), Hush (feel-bad if it hits the opponent's favorite), Quiet Queen quirk (does untargetable queen make Patches dead?). Pip and Vesper have no on-model art yet (Design Review №1 asks Indy to draw them).
+
+Piece-suite cards (6) also live in `cards.js` (`window.GLITCH_PIECES`) with base moves + taglines.
